@@ -1,0 +1,5 @@
+class VertexPartition[@specialized ( Long, Int, Double)  VD : ClassTag](
+val index: VertexIdToIndexMap,
+val values: Array[VD],
+val mask: BitSet,
+private val activeSet: Option[VertexSet] = None )

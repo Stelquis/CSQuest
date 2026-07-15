@@ -1,0 +1,22 @@
+MI,20,china,computer science and technology department,185,75
+MU,21,Spain,medical college,187,70
+MY,25,Portugal,chemical engineering institude,155,60
+MK,19,Japan,SEM,166,62
+Ab,24,France,school of materials,187,80
+Ar,21,Russia,school of materials,167,60
+Ad,20,Geneva,medical college,185,75
+Am,20,china,computer science and technology department,168,48
+Bo,20,Spain,chemical engineering institude,189,80
+By,20,china,SEM,164,55
+CY,20,Japan,medical college,195,85
+CT,18,France,school of materials,169,60
+Vi,20,china,chemical engineering institude,168,61
+Co,20,Geneva,school of materials,185,65
+Me,20,Portugal,SEM,181,68
+Ma,20,France,chemical engineering institude,158,55
+Dn,26,Japan,computer science and technology department,187,70
+Do,23,china,computer science and technology department,176,65
+Wt,20,Geneva,medical college,192,80
+Ju,20,Geneva,SEM,152,48
+Sy,20,Spain,computer science and technology department,174,80
+Wi,20,Portugal,chemical engineering institude,167,50

@@ -1,0 +1,5 @@
+def aggregateMessages[Msg: ClassTag](
+      sendMsg: EdgeContext[VD, ED, Msg] => Unit,
+      mergeMsg: (Msg, Msg) => Msg,
+      tripletFields: TripletFields = TripletFields.All)
+      : VertexRDD[Msg]

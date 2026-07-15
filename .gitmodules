@@ -1,0 +1,3 @@
+[submodule "Repo/the-art-of-git-project"]
+	path = Repo/the-art-of-git-project
+	url = https://www.gitlink.org.cn/niuchenxun/the-art-of-git-project

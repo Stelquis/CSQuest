@@ -1,0 +1,5 @@
+class EdgePartition[@specialized (Char, Int, Boolean, Byte, Long, Float, Double)  ED : ClassTag](
+val srcIds: Array[VertexId],
+val dstIds: Array[VertexId],
+val data: Array[ED],
+val index: PrimitiveKeyOpenHashMap[VertexId,Int] )

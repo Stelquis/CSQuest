@@ -1,0 +1,6 @@
+108,ZhangSan,male,1995/9/1,95033
+105,KangWeiWei,female,1996/6/1,95031
+107,GuiGui,male,1992/5/5,95033
+101,WangFeng,male,1993/8/8,95031
+106,LiuBing,female,1996/5/20,95033
+109,DuBingYan,male,1995/5/21,95031

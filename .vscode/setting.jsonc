@@ -1,0 +1,10 @@
+{
+    "gitblame.inlineMessageFormat": "${author.name} (${commit.shortHash})",
+    "terminal.integrated.suggest.enabled": true,
+    "terminal.integrated.shellIntegration.environmentReporting": true,
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "chat.disableAIFeatures": true,
+    "C_Cpp.default.cppStandard": "c++20",
+    "C_Cpp.default.cStandard": "c17",
+    "workbench.colorTheme": "Light+"
+}

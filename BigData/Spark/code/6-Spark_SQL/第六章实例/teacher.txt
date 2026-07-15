@@ -1,0 +1,5 @@
+825,LinYu,male,1958/1/1,Associate professor,department of computer
+804,DuMei,female,1962/1/1,Assistant professor,computer science department
+888,RenLi,male,1972/5/1,Lecturer,department of electronic engneering
+852,GongMOMO,female,1986/1/5,Associate professor,computer science department
+864,DuanMu,male,1985/6/1,Assistant professor,department of computer

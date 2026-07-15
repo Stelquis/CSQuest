@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>环境部署手册 — 现实世界资产代币化系统（RWA）</title>
+<style>
+/* ===== 根字体：基于它所有 rem 自动缩放 ===== */
+html { font-size: 100%; }  /* 浏览器默认 16px */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: #2c3e50;
+  background: #fff;
+}
+
+/* ===== 容器：vw 视口宽度，缩放自动重排，无上限 ===== */
+.container {
+  width: 80vw;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ===== 封面 ===== */
+.cover {
+  text-align: center;
+  padding: 5rem 0 3rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+}
+.cover .logo {
+  font-size: 3.5rem;
+  color: #1a73e8;
+  margin-bottom: 1.25rem;
+}
+.cover h1 {
+  font-size: 1.6rem;
+  color: #1a2a3a;
+  border: none;
+  margin-bottom: 0.75rem;
+}
+.cover .subtitle {
+  font-size: 0.85rem;
+  color: #888;
+}
+.cover .meta {
+  font-size: 0.8rem;
+  color: #999;
+  line-height: 2.2;
+  margin-top: 2.25rem;
+}
+.cover .divider {
+  width: 4rem;
+  height: 0.2rem;
+  background: #1a73e8;
+  margin: 1.5rem auto;
+}
+
+/* ===== 标题 ===== */
+h1 {
+  font-size: 1.35rem;
+  color: #1a73e8;
+  border-bottom: 0.15rem solid #1a73e8;
+  padding-bottom: 0.6rem;
+  margin: 2.25rem 0 1.25rem;
+}
+h1:first-of-type {
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.05rem;
+  color: #2c3e50;
+  border-left: 0.25rem solid #1a73e8;
+  padding-left: 0.75rem;
+  margin: 1.8rem 0 0.85rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 1.5rem 0 0.6rem;
+}
+
+h4 {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 1.1rem 0 0.5rem;
+}
+
+/* ===== 表格：自适应缩放 ===== */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.8rem;
+}
+th, td {
+  border: 1px solid #dde1e7;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  word-break: break-word;
+}
+th {
+  background: #e8f0fe;
+  color: #1a73e8;
+  font-weight: 600;
+}
+tr:nth-child(even) { background: #f8f9fb; }
+
+/* ===== 代码 ===== */
+code {
+  background: #f0f0f0;
+  padding: 0.125rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 0.82rem;
+  color: #c7254e;
+  word-break: break-all;
+}
+
+pre {
+  background: #f6f8fa;
+  border: 1px solid #dde1e7;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin: 0.85rem 0;
+  white-space: pre-wrap;       /* 自动换行 */
+  word-wrap: break-word;
+}
+pre code {
+  background: none;
+  padding: 0;
+  color: #24292f;
+  font-size: 0.78rem;
+  word-break: normal;
+}
+
+/* ===== 引用 ===== */
+blockquote {
+  border-left: 0.25rem solid #1a73e8;
+  margin: 1rem 0;
+  padding: 0.6rem 1.25rem;
+  background: #f0f7ff;
+  color: #666;
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e8eaed;
+  margin: 2rem 0;
+}
+
+/* ===== 列表 ===== */
+ul, ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin: 0.3rem 0; }
+
+/* ===== 图片 ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.75rem rgba(0,0,0,0.10);
+  margin: 0.75rem 0;
+  display: block;
+}
+
+/* ===== 文本 ===== */
+strong { color: #1a1a1a; }
+p { margin: 0.6rem 0; }
+a { color: #1a73e8; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== 页脚 ===== */
+.footer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e8eaed;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
+/* ===== 响应式：小屏进一步优化 ===== */
+@media screen and (max-width: 600px) {
+  .container {
+    width: 96%;
+    padding: 1.5rem 1rem 2rem;
+  }
+  .cover { padding: 3rem 0 2rem; }
+  .cover h1 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="cover">
+  <div class="logo">⬡</div>
+  <div class="divider"></div>
+  <h1>现实世界资产代币化系统（RWA）</h1>
+  <div class="subtitle">Real World Asset Tokenization System</div>
+  <div class="meta">
+    作者：牛晨勋 &nbsp;|&nbsp; 学号：8208231403 &nbsp;|&nbsp; 班级：大数据 2304<br>
+    课程：区块链与 Web3 综合实践项目设计 &nbsp;|&nbsp; 项目类型：项目四<br>
+    完成日期：2026-06-30 &nbsp;|&nbsp; 版本：V3.0
+  </div>
+</div>
+
+<h1>现实世界资产代币化系统 (RWA)</h1>
+<hr />
+<h2>一、项目概述</h2>
+<h3>1.1 项目信息</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目名称</td>
+<td>现实世界资产代币化系统（Real World Asset Tokenization System）</td>
+</tr>
+<tr>
+<td>所属课程</td>
+<td>区块链与 Web3 综合实践项目设计</td>
+</tr>
+<tr>
+<td>项目类型</td>
+<td>项目四 — 现实世界资产代币化系统</td>
+</tr>
+<tr>
+<td>作者姓名</td>
+<td>牛晨勋</td>
+</tr>
+<tr>
+<td>学号</td>
+<td>8208231403</td>
+</tr>
+<tr>
+<td>班级</td>
+<td>大数据2304</td>
+</tr>
+<tr>
+<td>完成日期</td>
+<td>2026-06-30</td>
+</tr>
+</tbody>
+</table>
+<h3>1.2 项目简介</h3>
+<p>本系统是一套连接传统金融与去中心化金融（DeFi）的资产代币化平台，将房地产、股权、债券、大宗商品等现实资产通过区块链技术数字化，实现资产的链上登记、合规发行、二级市场流通、自动化收益分配与全流程风险管理。系统完整覆盖《项目设计要求文档》4.1-4.4 全部模块。</p>
+<h3>1.3 核心功能模块</h3>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>合约</th>
+<th style="text-align: center;">设计要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>资产代币（ERC-20 + 白名单 + 合规检查）</td>
+<td><code>RWAToken.sol</code></td>
+<td style="text-align: center;">4.1 / 4.2.1</td>
+</tr>
+<tr>
+<td>资产登记层（多资产类型 + SPV 隔离 + 信息披露）</td>
+<td><code>AssetRegistry.sol</code></td>
+<td style="text-align: center;">4.2.1</td>
+</tr>
+<tr>
+<td>合规引擎（KYC / AML / 发行限制 / 转让限制 / 黑名单）</td>
+<td><code>Compliance.sol</code></td>
+<td style="text-align: center;">4.2.2</td>
+</tr>
+<tr>
+<td>交易市场（订单簿 + 做市商 + OTC 场外交易）</td>
+<td><code>Marketplace.sol</code></td>
+<td style="text-align: center;">4.2.3</td>
+</tr>
+<tr>
+<td>荷兰式拍卖（降价拍卖）</td>
+<td><code>DutchAuction.sol</code></td>
+<td style="text-align: center;">4.2.3</td>
+</tr>
+<tr>
+<td>收益分配自动化（存入 / 分配 / 领取 / 再投资）</td>
+<td><code>RevenueDistributor.sol</code></td>
+<td style="text-align: center;">4.3.3</td>
+</tr>
+<tr>
+<td>智能合约法律等效（条款 / 争议 / 事件 / 报告）</td>
+<td><code>LegalEnforcement.sol</code></td>
+<td style="text-align: center;">4.3.1</td>
+</tr>
+<tr>
+<td>动态估值系统（DCF / 可比 / 成本 / 市场法）</td>
+<td><code>Valuation.sol</code></td>
+<td style="text-align: center;">4.3.2</td>
+</tr>
+<tr>
+<td>风险管理（抵押仓位 / 清算 / 压力测试 / 保险绑定）</td>
+<td><code>RiskManager.sol</code></td>
+<td style="text-align: center;">4.4</td>
+</tr>
+<tr>
+<td>保险集成（保单发行 / 理赔审批）</td>
+<td><code>Insurance.sol</code></td>
+<td style="text-align: center;">4.4</td>
+</tr>
+</tbody>
+</table>
+<p><strong>合约统计</strong>：10 个独立合约 | 22 个结构体 | 6 个枚举 | 67 个事件 | 125 个 public/external 函数</p>
+<hr />
+<h2>二、提交文件清单</h2>
+<pre><code>学号_姓名_实践/
+├── contracts/                       # 智能合约（10 个 .sol）
+│   ├── RWAToken.sol                 # 资产代币（ERC-20 + 白名单）
+│   ├── AssetRegistry.sol            # 资产登记层
+│   ├── Compliance.sol               # 合规引擎
+│   ├── Marketplace.sol              # 交易市场
+│   ├── DutchAuction.sol             # 荷兰式拍卖
+│   ├── RevenueDistributor.sol       # 收益分配
+│   ├── LegalEnforcement.sol         # 法律等效
+│   ├── Valuation.sol                # 动态估值
+│   ├── RiskManager.sol              # 风险管理
+│   └── Insurance.sol                # 保险集成
+├── frontend/                        # 前端页面
+│   ├── index.html                   # 主页面（10 个子页面 + 响应式布局）
+│   ├── app.js                       # ethers.js 交互逻辑（内置私钥签名）
+│   └── style.css                    # 样式文件
+├── scripts/
+│   ├── deploy.js                    # 合约部署脚本（含预置数据）
+│   ├── init-data.js                 # 初始数据补充脚本
+│   ├── sync-addresses.js            # 合约地址同步脚本
+│   └── verify-all.js                # 完全验证脚本
+├── rwa.sh                           # 一键部署脚本
+├── server.js                        # Node.js 前端服务器（含 RPC 代理）
+├── hardhat.config.js                # Hardhat 配置
+├── package.json                     # 项目依赖
+├── package-lock.json                # 依赖锁文件
+├── README.md                        # 环境部署手册（本文件）
+├── 项目设计要求文档.md                # 设计要求文档（原始任务书）
+├── 设计说明文档.md                    # 系统设计文档
+└── 测试报告.md                       # 测试报告
+</code></pre>
+<hr />
+<h2>三、技术栈</h2>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>技术</th>
+<th>版本</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>智能合约语言</td>
+<td>Solidity</td>
+<td>^0.8.28</td>
+<td>最新稳定版，内置溢出保护</td>
+</tr>
+<tr>
+<td>开发框架</td>
+<td>Hardhat</td>
+<td>2.x</td>
+<td>编译 / 部署 / 节点管理</td>
+</tr>
+<tr>
+<td>本地区块链</td>
+<td>Hardhat Network</td>
+<td>Chain ID: 31337</td>
+<td>预置 20 个测试账户（每账户 10000 ETH）</td>
+</tr>
+<tr>
+<td>前端技术</td>
+<td>HTML5 + CSS3 + JavaScript (ES6)</td>
+<td>—</td>
+<td>纯原生实现，零框架依赖</td>
+</tr>
+<tr>
+<td>区块链交互</td>
+<td>ethers.js</td>
+<td>6.7</td>
+<td>现代化以太坊 SDK</td>
+</tr>
+<tr>
+<td>前端服务</td>
+<td>Node.js HTTP Server</td>
+<td>—</td>
+<td>静态文件托管 + RPC 代理转发</td>
+</tr>
+<tr>
+<td>钱包方案</td>
+<td>内置私钥签名</td>
+<td>—</td>
+<td>使用 Hardhat 账户私钥直接签名，免 MetaMask</td>
+</tr>
+<tr>
+<td>文件存证</td>
+<td>IPFS 内容哈希</td>
+<td>—</td>
+<td>法律文件 / 披露 / 参数以 Qm... 格式存证</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>四、环境要求</h2>
+<table>
+<thead>
+<tr>
+<th>依赖</th>
+<th style="text-align: center;">最低版本</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node.js</td>
+<td style="text-align: center;">18+</td>
+<td>JavaScript 运行环境</td>
+</tr>
+<tr>
+<td>npm</td>
+<td style="text-align: center;">8+</td>
+<td>包管理器，随 Node.js 一起安装</td>
+</tr>
+<tr>
+<td>浏览器</td>
+<td style="text-align: center;">Chrome / Edge / Firefox</td>
+<td>访问前端页面</td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td style="text-align: center;">Linux / macOS / Windows (WSL)</td>
+<td>开发与运行环境</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>五、快速开始（一键部署）</h2>
+<pre><code class="language-bash"># 进入项目目录
+cd Blockchain/Project
+
+# 一键启动（安装依赖 → 编译合约 → 启动区块链 → 部署合约 → 初始化数据 → 启动前端）
+bash rwa.sh
+</code></pre>
+<p>脚本 <code>rwa.sh</code> 自动执行以下步骤：</p>
+<pre><code>1. npm install              — 安装 Hardhat 及依赖
+2. npx hardhat compile      — 编译 10 个智能合约
+3. npx hardhat node &amp;       — 后台启动本地区块链（端口 8545）
+4. npx hardhat run scripts/deploy.js --network localhost   — 部署 10 个合约
+5. npx hardhat run scripts/init-data.js --network localhost — 初始化演示数据
+6. node scripts/sync-addresses.js — 同步合约地址到前端 app.js
+7. node server.js           — 启动前端服务（端口 8080）
+</code></pre>
+<p>部署完成后，浏览器访问 <strong>http://localhost:8080</strong> 即可使用。</p>
+<hr />
+<h2>六、手动部署步骤</h2>
+<h3>步骤一：安装依赖</h3>
+<pre><code class="language-bash">cd Blockchain/Project
+npm install
+</code></pre>
+<h3>步骤二：编译合约</h3>
+<pre><code class="language-bash">npx hardhat compile
+</code></pre>
+<p>预期输出：</p>
+<pre><code>Compiled 10 Solidity files successfully
+</code></pre>
+<h3>步骤三：启动本地区块链</h3>
+<p>在终端 1 中运行：</p>
+<pre><code class="language-bash">npx hardhat node
+</code></pre>
+<p>输出 20 个测试账户及其私钥（每个账户 10000 ETH）。保持终端运行。</p>
+<h3>步骤四：部署合约</h3>
+<p>在终端 2 中运行：</p>
+<pre><code class="language-bash">npx hardhat run scripts/deploy.js --network localhost
+</code></pre>
+<p>部署顺序（按依赖关系）：</p>
+<pre><code>Compliance → RWAToken → Marketplace → RevenueDistributor
+→ RiskManager → AssetRegistry → LegalEnforcement
+→ Valuation → DutchAuction → Insurance
+</code></pre>
+<p>部署完成后输出全部合约地址，并自动写入 <code>deployed-addresses.json</code>。</p>
+<p>部署脚本同步预置初始数据：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>预置数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>合规</td>
+<td>4 账户 KYC 认证、转让限制、发行限制、AML 阈值</td>
+</tr>
+<tr>
+<td>代币</td>
+<td>4 账户白名单、190,000 RWA 铸造</td>
+</tr>
+<tr>
+<td>资产登记</td>
+<td>4 个多类型资产、2 条信息披露</td>
+</tr>
+<tr>
+<td>法律</td>
+<td>4 条条款编码、2 个法律事件、2 份监管报告</td>
+</tr>
+<tr>
+<td>估值</td>
+<td>4 种方法估值、1 个综合估值、代币价格同步</td>
+</tr>
+<tr>
+<td>保险</td>
+<td>1 个保单</td>
+</tr>
+</tbody>
+</table>
+<h3>步骤五：补充初始化数据（可选）</h3>
+<pre><code class="language-bash">npx hardhat run scripts/init-data.js --network localhost
+</code></pre>
+<p>补充数据（用于前端演示）：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>补充数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>资产登记</td>
+<td>+2 资产、+3 信息披露</td>
+</tr>
+<tr>
+<td>交易市场</td>
+<td>4 个卖单、1 个做市商注册 + 报价</td>
+</tr>
+<tr>
+<td>荷兰拍卖</td>
+<td>2 场拍卖</td>
+</tr>
+<tr>
+<td>OTC</td>
+<td>1 笔 OTC 意向</td>
+</tr>
+<tr>
+<td>收益分配</td>
+<td>3 笔收益存入、2 笔分配方案</td>
+</tr>
+<tr>
+<td>保险</td>
+<td>+3 个保单</td>
+</tr>
+<tr>
+<td>法律</td>
+<td>+4 条条款、1 笔争议</td>
+</tr>
+<tr>
+<td>估值</td>
+<td>+4 条估值、+2 综合估值、2 条验证</td>
+</tr>
+<tr>
+<td>风险管理</td>
+<td>3 个抵押仓位、1 个保险绑定、2 次压力测试</td>
+</tr>
+</tbody>
+</table>
+<h3>步骤六：同步合约地址</h3>
+<pre><code class="language-bash">node scripts/sync-addresses.js
+</code></pre>
+<p>将 <code>deployed-addresses.json</code> 中的地址自动写入 <code>frontend/app.js</code>。</p>
+<h3>步骤七：启动前端</h3>
+<pre><code class="language-bash">node server.js
+</code></pre>
+<p>前端架构：</p>
+<pre><code>浏览器 (http://localhost:8080)
+    │
+    ├── GET /* → 静态文件代理（frontend/ 目录）
+    │
+    └── POST /rpc → RPC 代理转发 → Hardhat Node (http://127.0.0.1:8545)
+</code></pre>
+<p>浏览器访问 <code>http://localhost:8080</code> 进入系统。</p>
+<hr />
+<h2>七、前端页面说明</h2>
+<p>前端采用侧边栏导航 + 内容区布局，共 10 个子页面：</p>
+<h3>⊞ 总览</h3>
+<p>资产信息总览、账户状态、快速操作（铸造/白名单/KYC）</p>
+<p><img alt="总览" src="screenshots/总览.png" /></p>
+<h3>↯ 交易市场</h3>
+<p>子导航：订单簿 / 做市商 / OTC 交易</p>
+<p><img alt="交易市场" src="screenshots/交易市场.png" /></p>
+<h3>$ 收益分配</h3>
+<p>存入收益、创建分配、领取、再投资</p>
+<p><img alt="收益分配" src="screenshots/收益分配.png" /></p>
+<h3>⬡ 资产登记</h3>
+<p>SPV 隔离资产列表、代币化率查询</p>
+<p><img alt="资产登记" src="screenshots/资产登记.png" /></p>
+<h3>∿ 动态估值</h3>
+<p>四种方法估值记录、加权综合估值</p>
+<p><img alt="动态估值" src="screenshots/动态估值.png" /></p>
+<h3>ⓘ 荷兰拍卖</h3>
+<p>拍卖列表、实时价格、竞价参与</p>
+<p><img alt="荷兰拍卖" src="screenshots/荷兰拍卖.png" /></p>
+<h3>◊ 保险集成</h3>
+<p>保单列表、理赔申请</p>
+<p><img alt="保险集成" src="screenshots/保险集成.png" /></p>
+<h3>§ 法律等效</h3>
+<p>条款 / 争议 / 事件 / 报告</p>
+<p><img alt="法律等效" src="screenshots/法律等效.png" /></p>
+<h3>⚠ 风险管理</h3>
+<p>仓位管理、压力测试、保险绑定、参数调整</p>
+<p><img alt="风险管理" src="screenshots/风险管理.png" /></p>
+<h3>⛔ AML 合规</h3>
+<p>AML 监控、发行限制、风险等级管理</p>
+<p><img alt="AML合规" src="screenshots/AML合规.png" /></p>
+<p><strong>钱包机制</strong>：前端使用 Hardhat 内置 Account #0 私钥创建 <code>ethers.Wallet</code> 签名所有交易，无需 MetaMask 交互。数据刷新通过 17 个并行函数自动完成。页面首次加载时自动检测数据状态，若为空则调用 <code>seedDemoData()</code> 创建演示数据。</p>
+<hr />
+<h2>八、验证测试</h2>
+<h3>8.1 编译验证</h3>
+<pre><code class="language-bash">npx hardhat compile
+# → Compiled 10 Solidity files successfully
+</code></pre>
+<h3>8.2 部署验证</h3>
+<pre><code class="language-bash">node scripts/verify-all.js
+</code></pre>
+<p>验证 10 个合约全部已部署、合约关联关系正确、关键状态变量初始值正确。</p>
+<h3>8.3 功能测试清单</h3>
+<p>以下为各模块核心功能的手动测试步骤：</p>
+<p><strong>资产登记（AssetRegistry）</strong></p>
+<ul>
+<li>[ ] <code>registerAsset</code> — 登记房地产/股权/债券/大宗商品四类资产</li>
+<li>[ ] <code>getSPVAssets(spvAddress)</code> — SPV 隔离查询</li>
+<li>[ ] <code>publishDisclosure</code> / <code>getAssetDisclosures</code> — 信息披露</li>
+<li>[ ] <code>getTokenizationRate</code> — 代币化率查询</li>
+</ul>
+<p><strong>合规引擎（Compliance）</strong></p>
+<ul>
+<li>[ ] <code>verifyInvestor</code> — KYC 单地址认证</li>
+<li>[ ] <code>batchVerifyInvestors</code> — 批量 KYC 认证</li>
+<li>[ ] <code>updateBlacklist</code> / <code>batchUpdateBlacklist</code> — 黑名单管理</li>
+<li>[ ] <code>checkTransfer(from, to, amount)</code> — 转账合规检查</li>
+<li>[ ] <code>checkIssuance</code> — 发行限制检查</li>
+<li>[ ] <code>setAMLRiskLevel</code> — AML 风险等级（0-3）</li>
+</ul>
+<p><strong>代币操作（RWAToken）</strong></p>
+<ul>
+<li>[ ] <code>mint</code> / <code>batchMint</code> — 铸造代币</li>
+<li>[ ] <code>updateWhitelist</code> / <code>batchUpdateWhitelist</code> — 白名单管理</li>
+<li>[ ] <code>transfer</code> — 含白名单 + 合规检查的转账</li>
+<li>[ ] <code>pause</code> / <code>unpause</code> — 紧急暂停/恢复</li>
+<li>[ ] <code>getTokenPrice</code> / <code>getTokenInfo</code> — 代币信息查询</li>
+</ul>
+<p><strong>交易市场（Marketplace）</strong></p>
+<ul>
+<li>[ ] <code>createSellOrder</code> → <code>buyTokens</code> → 部分/全额成交</li>
+<li>[ ] <code>registerMarketMaker</code> → <code>updateQuote</code> → <code>buyFromMaker</code> / <code>sellToMaker</code></li>
+<li>[ ] <code>proposeOTC</code> → <code>acceptOTC</code> → <code>settleOTC</code>（四状态流转）</li>
+</ul>
+<p><strong>荷兰式拍卖（DutchAuction）</strong></p>
+<ul>
+<li>[ ] <code>createAuction</code> → <code>getCurrentPrice</code>（价格递减）→ <code>bid</code></li>
+</ul>
+<p><strong>收益分配（RevenueDistributor）</strong></p>
+<ul>
+<li>[ ] <code>depositRevenue</code> → <code>createDistribution</code> → <code>claim</code></li>
+<li>[ ] <code>toggleAutoReinvest</code> → <code>claimWithReinvest</code>（再投资）</li>
+</ul>
+<p><strong>法律等效（LegalEnforcement）</strong></p>
+<ul>
+<li>[ ] <code>encodeClause</code> → <code>fileDispute</code> → <code>resolveDispute</code>（仲裁裁决）</li>
+<li>[ ] <code>registerLegalEvent</code> → <code>triggerLegalEvent</code> → <code>executeLegalEvent</code></li>
+<li>[ ] <code>generateReport</code> → <code>verifyReport</code></li>
+</ul>
+<p><strong>动态估值（Valuation）</strong></p>
+<ul>
+<li>[ ] <code>valuationByDCF</code> / <code>valuationByComparable</code> / <code>valuationByCost</code> / <code>valuationByMarket</code></li>
+<li>[ ] <code>computeCompositeValue</code>（加权综合）</li>
+</ul>
+<p><strong>风险管理（RiskManager）</strong></p>
+<ul>
+<li>[ ] <code>createPosition</code> → <code>addCollateral</code> → <code>repayDebt</code></li>
+<li>[ ] <code>liquidate</code> / <code>liquidateWithInsurance</code></li>
+<li>[ ] <code>runStressTest</code>（压力测试）</li>
+<li>[ ] <code>updateRiskParams</code>（动态参数）</li>
+</ul>
+<p><strong>保险集成（Insurance）</strong></p>
+<ul>
+<li>[ ] <code>issuePolicy</code> → <code>fileClaim</code> → <code>approveClaim</code> / <code>rejectClaim</code></li>
+</ul>
+<hr />
+<h2>九、安全机制</h2>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>实现方式</th>
+<th>覆盖范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重入防护</td>
+<td>自定义<code>nonReentrant</code> 修饰符</td>
+<td>Marketplace（8 个函数）、Revenue（4 个）、DutchAuction（2 个）、Insurance（2 个）</td>
+</tr>
+<tr>
+<td>暂停控制</td>
+<td><code>whenNotPaused</code> 修饰符</td>
+<td>RWAToken、Marketplace</td>
+</tr>
+<tr>
+<td>白名单校验</td>
+<td><code>onlyWhitelisted</code> 修饰符 + 转账前检查</td>
+<td>RWAToken</td>
+</tr>
+<tr>
+<td>合规检查</td>
+<td>转账/交易前调用<code>checkTransfer()</code></td>
+<td>RWAToken、Marketplace</td>
+</tr>
+<tr>
+<td>黑名单</td>
+<td>封禁违规地址，阻止其转账</td>
+<td>Compliance</td>
+</tr>
+<tr>
+<td>路径穿越防护</td>
+<td><code>filePath.startsWith(FRONTEND_DIR)</code></td>
+<td>server.js</td>
+</tr>
+<tr>
+<td>整数溢出保护</td>
+<td>Solidity 0.8.28 内置</td>
+<td>全部 10 个合约</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键参数配置</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align: center;">默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手续费率</td>
+<td style="text-align: center;">0.25%（25/10000）</td>
+<td>每笔 Marketplace 交易</td>
+</tr>
+<tr>
+<td>最低抵押率</td>
+<td style="text-align: center;">150%</td>
+<td>仓位安全线</td>
+</tr>
+<tr>
+<td>清算阈值</td>
+<td style="text-align: center;">120%</td>
+<td>低于此值触发清算</td>
+</tr>
+<tr>
+<td>清算罚金</td>
+<td style="text-align: center;">10%</td>
+<td>清算时惩罚比例</td>
+</tr>
+<tr>
+<td>最大杠杆</td>
+<td style="text-align: center;">3x</td>
+<td>单仓位最高杠杆</td>
+</tr>
+<tr>
+<td>AML 阈值</td>
+<td style="text-align: center;">50000 ETH</td>
+<td>累计交易量超标自动标记</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十、常见问题</h2>
+<p><strong>Q：端口被占用？</strong></p>
+<pre><code class="language-bash"># 检查 8545 端口（Hardhat Node）
+lsof -i :8545
+# 检查 8080 端口（前端服务）
+lsof -i :8080
+# 释放端口
+kill -9 &lt;PID&gt;
+</code></pre>
+<p><strong>Q：合约地址变化？</strong></p>
+<p>每次重新部署 Hardhat Node 合约地址会改变。请务必执行 <code>node scripts/sync-addresses.js</code> 同步最新地址。</p>
+<p><strong>Q：前端报错"合约调用失败"？</strong></p>
+<p>确认 Hardhat Node 正在运行（终端 1 保持 <code>npx hardhat node</code> 运行中），且合约已部署。可运行 <code>node scripts/verify-all.js</code> 检查。</p>
+<p><strong>Q：浏览器无法连接？</strong></p>
+<p>确保 <code>server.js</code> 正在运行。RPC 请求通过 <code>/rpc</code> 代理转发，不直接连接 8545 端口。</p>
+<hr />
+<h2>十一、注意事项</h2>
+<ol>
+<li><strong>独立完成</strong>：本系统为个人独立完成，严禁抄袭，代码雷同按 0 分处理。</li>
+<li><strong>环境要求</strong>：确保 Node.js 18+、npm 8+ 已安装。</li>
+<li><strong>端口检查</strong>：确保 8545（Hardhat Node）和 8080（前端服务）端口未被占用。</li>
+<li><strong>部署顺序</strong>：必须先启动 Hardhat Node，再部署合约，最后启动前端。</li>
+<li><strong>地址同步</strong>：每次重新部署后必须运行 <code>sync-addresses.js</code>。</li>
+<li><strong>提交格式</strong>：打包为 <code>学号_姓名_实践.zip</code> 提交，包含所有源码和文档。</li>
+</ol>
+<hr />
+<h2>十二、学号哈希输出</h2>
+<pre><code>学号: 8208231403
+学号哈希: 67b67e91b33bffba28c884eb78362abd1f16f763852704f3b7a40e0059037d31
+</code></pre>
+<hr />
+<h2>配套文档</h2>
+<table>
+<thead>
+<tr>
+<th>文档</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="项目设计要求文档.md">项目设计要求文档.md</a></td>
+<td>原始课程任务要求（不可修改）</td>
+</tr>
+<tr>
+<td><a href="设计说明文档.md">设计说明文档.md</a></td>
+<td>系统架构设计、合约详细设计、数据结构、安全设计</td>
+</tr>
+<tr>
+<td><a href="测试报告.md">测试报告.md</a></td>
+<td>143 个测试用例，覆盖全部 10 个合约和 10 个前端页面</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p>📅 完成日期：2026-06-30 | 版本 V3.0</p>
+</blockquote>
+
+<div class="footer">
+  © 2026 现实世界资产代币化系统（RWA）— 环境部署手册
+</div>
+
+</div>
+</body>
+</html>

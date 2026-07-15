@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设计说明文档 — 现实世界资产代币化系统（RWA）</title>
+<style>
+/* ===== 根字体：基于它所有 rem 自动缩放 ===== */
+html { font-size: 100%; }  /* 浏览器默认 16px */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: #2c3e50;
+  background: #fff;
+}
+
+/* ===== 容器：vw 视口宽度，缩放自动重排，无上限 ===== */
+.container {
+  width: 80vw;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ===== 封面 ===== */
+.cover {
+  text-align: center;
+  padding: 5rem 0 3rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+}
+.cover .logo {
+  font-size: 3.5rem;
+  color: #1a73e8;
+  margin-bottom: 1.25rem;
+}
+.cover h1 {
+  font-size: 1.6rem;
+  color: #1a2a3a;
+  border: none;
+  margin-bottom: 0.75rem;
+}
+.cover .subtitle {
+  font-size: 0.85rem;
+  color: #888;
+}
+.cover .meta {
+  font-size: 0.8rem;
+  color: #999;
+  line-height: 2.2;
+  margin-top: 2.25rem;
+}
+.cover .divider {
+  width: 4rem;
+  height: 0.2rem;
+  background: #1a73e8;
+  margin: 1.5rem auto;
+}
+
+/* ===== 标题 ===== */
+h1 {
+  font-size: 1.35rem;
+  color: #1a73e8;
+  border-bottom: 0.15rem solid #1a73e8;
+  padding-bottom: 0.6rem;
+  margin: 2.25rem 0 1.25rem;
+}
+h1:first-of-type {
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.05rem;
+  color: #2c3e50;
+  border-left: 0.25rem solid #1a73e8;
+  padding-left: 0.75rem;
+  margin: 1.8rem 0 0.85rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 1.5rem 0 0.6rem;
+}
+
+h4 {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 1.1rem 0 0.5rem;
+}
+
+/* ===== 表格：自适应缩放 ===== */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.8rem;
+}
+th, td {
+  border: 1px solid #dde1e7;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  word-break: break-word;
+}
+th {
+  background: #e8f0fe;
+  color: #1a73e8;
+  font-weight: 600;
+}
+tr:nth-child(even) { background: #f8f9fb; }
+
+/* ===== 代码 ===== */
+code {
+  background: #f0f0f0;
+  padding: 0.125rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 0.82rem;
+  color: #c7254e;
+  word-break: break-all;
+}
+
+pre {
+  background: #f6f8fa;
+  border: 1px solid #dde1e7;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin: 0.85rem 0;
+  white-space: pre-wrap;       /* 自动换行 */
+  word-wrap: break-word;
+}
+pre code {
+  background: none;
+  padding: 0;
+  color: #24292f;
+  font-size: 0.78rem;
+  word-break: normal;
+}
+
+/* ===== 引用 ===== */
+blockquote {
+  border-left: 0.25rem solid #1a73e8;
+  margin: 1rem 0;
+  padding: 0.6rem 1.25rem;
+  background: #f0f7ff;
+  color: #666;
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e8eaed;
+  margin: 2rem 0;
+}
+
+/* ===== 列表 ===== */
+ul, ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin: 0.3rem 0; }
+
+/* ===== 图片 ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.75rem rgba(0,0,0,0.10);
+  margin: 0.75rem 0;
+  display: block;
+}
+
+/* ===== 文本 ===== */
+strong { color: #1a1a1a; }
+p { margin: 0.6rem 0; }
+a { color: #1a73e8; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== 页脚 ===== */
+.footer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e8eaed;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
+/* ===== 响应式：小屏进一步优化 ===== */
+@media screen and (max-width: 600px) {
+  .container {
+    width: 96%;
+    padding: 1.5rem 1rem 2rem;
+  }
+  .cover { padding: 3rem 0 2rem; }
+  .cover h1 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="cover">
+  <div class="logo">⬡</div>
+  <div class="divider"></div>
+  <h1>现实世界资产代币化系统（RWA）</h1>
+  <div class="subtitle">Real World Asset Tokenization System</div>
+  <div class="meta">
+    作者：牛晨勋 &nbsp;|&nbsp; 学号：8208231403 &nbsp;|&nbsp; 班级：大数据 2304<br>
+    课程：区块链与 Web3 综合实践项目设计 &nbsp;|&nbsp; 项目类型：项目四<br>
+    完成日期：2026-06-30 &nbsp;|&nbsp; 版本：V3.0
+  </div>
+</div>
+
+<h1>现实世界资产代币化系统 (RWA) — 设计说明文档</h1>
+<hr />
+<h2>一、系统概述</h2>
+<h3>1.1 项目定位</h3>
+<p>本系统是一套基于以太坊智能合约的现实世界资产代币化（RWA）平台，将房地产、股权、债券、大宗商品等传统资产通过区块链技术数字化，实现资产的链上登记、合规发行、二级市场流通、自动化收益分配与全流程风险管理。</p>
+<h3>1.2 设计要求覆盖</h3>
+<p>系统完整覆盖《项目设计要求文档》4.1-4.4 全部模块：</p>
+<table>
+<thead>
+<tr>
+<th>设计模块</th>
+<th>对应合约</th>
+<th style="text-align: center;">合约数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4.2.1 资产登记层</td>
+<td><code>AssetRegistry.sol</code> + <code>RWAToken.sol</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td>4.2.2 合规发行系统</td>
+<td><code>Compliance.sol</code></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>4.2.3 二级市场交易</td>
+<td><code>Marketplace.sol</code> + <code>DutchAuction.sol</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td>4.3.1 智能合约法律等效</td>
+<td><code>LegalEnforcement.sol</code></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>4.3.2 动态估值系统</td>
+<td><code>Valuation.sol</code></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>4.3.3 收益分配自动化</td>
+<td><code>RevenueDistributor.sol</code></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>4.4 风险管理框架</td>
+<td><code>RiskManager.sol</code> + <code>Insurance.sol</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td></td>
+<td style="text-align: center;"><strong>10</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>合约统计</strong>：10 个独立合约 | 22 个结构体 | 6 个枚举 | 67 个事件 | 125 个 public/external 函数</p>
+<hr />
+<h2>二、系统架构</h2>
+<h3>2.1 整体架构图</h3>
+<pre><code>┌──────────────────────────────────────────────────────────────────┐
+│                       前端展示层（Frontend）                       │
+│   HTML5 + CSS3 + JavaScript (ES6) + ethers.js 6.7                │
+│   10 个子页面 · 侧边导航 · 响应式布局                                │
+│   内置 Hardhat 私钥签名（免 MetaMask）                              │
+├──────────────────────────────────────────────────────────────────┤
+│                       服务层（Server）                             │
+│   Node.js HTTP Server (server.js) :8080                          │
+│   ├── GET /* → 静态文件托管（frontend/ 目录）                       │
+│   └── POST /rpc → JSON-RPC 代理转发（→ Hardhat :8545）            │
+├──────────────────────────────────────────────────────────────────┤
+│                   智能合约层（Contract Layer）                      │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐┌───────────┐│
+│  │ RWAToken     │ │ Compliance   │ │ Marketplace  ││ Revenue   ││
+│  │ ERC20 + 白名单│ │ KYC/AML/黑名单│ │ 订单簿/做市商 ││ Distributor││
+│  │ + 合规检查    │ │ 发行/转让限制 │ │ OTC 场外      ││ 收益分配   ││
+│  └──────────────┘ └──────────────┘ └──────────────┘└───────────┘│
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐┌───────────┐│
+│  │ AssetRegistry│ │ LegalEnforce │ │ Valuation    ││ RiskManager││
+│  │ 4类资产登记  │ │ ment 法律等效│ │ DCF/可比/成本 ││ 抵押/清算   ││
+│  │ SPV隔离+披露 │ │ 条款/争议/报告│ │ /市场法+综合  ││ 压力测试    ││
+│  └──────────────┘ └──────────────┘ └──────────────┘└───────────┘│
+│  ┌──────────────┐ ┌──────────────┐                                │
+│  │ DutchAuction │ │ Insurance    │                                │
+│  │ 荷兰式降价拍卖│ │ 保单/理赔    │                                │
+│  └──────────────┘ └──────────────┘                                │
+├──────────────────────────────────────────────────────────────────┤
+│                   区块链层（Blockchain）                           │
+│   Hardhat Network · Chain ID: 31337 · 20 个预置测试账户            │
+└──────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3>2.2 合约交互关系</h3>
+<pre><code>                    ┌─────────────────┐
+                    │   Compliance    │
+                    │   合规引擎       │
+                    └────────┬────────┘
+                             │ setComplianceContract(address)
+         ┌───────────────────┼───────────────────────┐
+         ▼                   ▼                       ▼
+┌────────────┐    ┌──────────────┐    ┌──────────────────┐
+│  RWAToken  │◄───│ Marketplace  │    │RevenueDistributor│
+│  资产代币  │    │  交易市场     │    │  收益分配        │
+└─────┬──────┘    └──────┬───────┘    └────────┬─────────┘
+      │                  │                     │
+      │      ┌──────────┐│   ┌─────────────┐  │
+      │      │DutchAuct││   │AssetRegistry │  │
+      │      │荷兰拍卖 ││   │ 资产登记层  │  │
+      │      └──────────┘│   └─────────────┘  │
+      │                  │                     │
+      ▼                  ▼                     ▼
+┌──────────┐   ┌──────────────┐    ┌──────────────┐
+│Valuation │   │LegalEnforce  │    │ RiskManager  │
+│动态估值  │   │ment 法律等效 │    │ 风险管理     │
+└──────────┘   └──────────────┘    └──────┬───────┘
+          ▲                               │
+          └───────────────────────────────┘
+                  setInsuranceContract()  │
+               ┌──────────┐               │
+               │Insurance │◄──────────────┘
+               │保险集成   │  bindInsurance()
+               └──────────┘
+</code></pre>
+<p><strong>合约依赖关系</strong>：</p>
+<ul>
+<li><code>Compliance</code>：独立部署，被 RWAToken、Marketplace、RevenueDistributor、RiskManager 引用</li>
+<li>RWAToken：需要 <code>setComplianceContract()</code> 设置合规引用，被 Marketplace、RevenueDistributor、DutchAuction 引用</li>
+<li>Marketplace：构造参数依赖 Compliance + RWAToken 地址</li>
+<li>RiskManager：构造参数依赖 Compliance 地址，运行时通过 <code>setInsuranceContract()</code> 关联 Insurance</li>
+<li>AssetRegistry、LegalEnforcement、Valuation、DutchAuction、Insurance：无依赖，可独立部署</li>
+</ul>
+<hr />
+<h2>三、智能合约详细设计</h2>
+<h3>3.1 AssetRegistry.sol — 资产登记层（4.2.1）</h3>
+<p><strong>功能</strong>：多资产类型上链登记、SPV 风险隔离、信息披露管理</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">enum AssetCategory { RealEstate, Equity, Bond, Commodity }
+
+struct AssetRecord {
+    uint256 assetId;
+    string name;
+    AssetCategory category;     // 房地产/股权/债券/大宗商品
+    uint256 totalValue;         // 注册总估值
+    uint256 tokenizedAmount;    // 已代币化数量
+    address spvAddress;         // SPV 隔离地址
+    address tokenAddress;       // 对应代币合约
+    address issuer;             // 发行方
+    uint256 registeredAt;       // 登记时间戳
+    bool isActive;
+    string legalDocHash;        // 法律文件 IPFS 哈希
+}
+
+struct Disclosure {
+    uint256 disclosureId;
+    uint256 assetId;
+    string title;
+    string contentHash;         // 内容 IPFS 哈希
+    uint256 publishedAt;
+    bool active;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>registerAsset(name, category, totalValue, spvAddress, tokenAddress, legalDocHash) → uint256</code></td>
+<td>登记新资产</td>
+</tr>
+<tr>
+<td><code>updateTokenizedAmount(assetId, amount)</code></td>
+<td>更新代币化进度</td>
+</tr>
+<tr>
+<td><code>updateAssetValue(assetId, newValue)</code></td>
+<td>更新资产估值</td>
+</tr>
+<tr>
+<td><code>deactivateAsset(assetId)</code></td>
+<td>停用资产</td>
+</tr>
+<tr>
+<td><code>publishDisclosure(assetId, title, contentHash) → uint256</code></td>
+<td>发布信息披露</td>
+</tr>
+<tr>
+<td><code>getAssetDisclosures(assetId) → Disclosure[]</code></td>
+<td>查询资产信息披露</td>
+</tr>
+<tr>
+<td><code>getSPVAssets(spvAddress) → uint256[]</code></td>
+<td>查询 SPV 下所有资产</td>
+</tr>
+<tr>
+<td><code>getTokenizationRate(assetId) → uint256</code></td>
+<td>代币化率（百分比）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>3.2 Compliance.sol — 合规引擎（4.2.2）</h3>
+<p><strong>功能</strong>：KYC 认证 + AML 反洗钱 + 发行限制 + 转让限制 + 黑名单</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">struct Investor {
+    address wallet;
+    string name;
+    string kycId;
+    uint256 verifiedAt;
+    uint256 expiresAt;
+    bool isAccredited;          // 合格投资者
+    bool isBlacklisted;         // 黑名单
+    uint256 maxInvestment;      // 最大投资额
+}
+
+struct TransferRestriction {
+    uint256 minHoldingPeriod;   // 最短持有期（秒）
+    uint256 maxTransferAmount;  // 单次最大转让额
+    bool lockupActive;          // 锁定期开关
+    uint256 lockupEnd;          // 锁定期结束时间
+}
+
+struct IssuanceLimit {
+    uint256 maxSupply;              // 最大供应量
+    uint256 maxInvestors;           // 最大投资者数
+    uint256 minLockupPeriod;        // 最短锁定期
+    uint256 maxInvestmentPerInvestor; // 单人最大投资额
+    bool enabled;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KYC</td>
+<td><code>verifyInvestor(investor, name, kycId, isAccredited, maxInvestment, validityPeriod)</code></td>
+<td>单地址认证</td>
+</tr>
+<tr>
+<td>KYC</td>
+<td><code>batchVerifyInvestors(investors[], names[], kycIds[], ...)</code></td>
+<td>批量认证</td>
+</tr>
+<tr>
+<td>KYC</td>
+<td><code>revokeInvestor(investor, reason)</code></td>
+<td>撤销认证</td>
+</tr>
+<tr>
+<td>KYC</td>
+<td><code>isVerified(address) → bool</code></td>
+<td>查询认证状态</td>
+</tr>
+<tr>
+<td>发行</td>
+<td><code>setIssuanceLimit(maxSupply, maxInvestors, minLockupPeriod, maxInvestmentPerInvestor, enabled)</code></td>
+<td>设置发行限制</td>
+</tr>
+<tr>
+<td>发行</td>
+<td><code>checkIssuance(currentSupply, currentInvestorCount, mintAmount) → (bool, string)</code></td>
+<td>发行合规检查</td>
+</tr>
+<tr>
+<td>转账</td>
+<td><code>checkTransfer(from, to, amount) → (bool, string)</code></td>
+<td>转账合规检查</td>
+</tr>
+<tr>
+<td>AML</td>
+<td><code>setAMLThreshold(threshold)</code></td>
+<td>设置大额交易阈值</td>
+</tr>
+<tr>
+<td>AML</td>
+<td><code>setAMLRiskLevel(account, riskLevel)</code></td>
+<td>风险等级（0-3）</td>
+</tr>
+<tr>
+<td>AML</td>
+<td><code>recordTransaction(account, amount)</code></td>
+<td>记录累计交易（仅管理员）</td>
+</tr>
+<tr>
+<td>AML</td>
+<td><code>clearAMLFlag(account)</code></td>
+<td>清除 AML 标记</td>
+</tr>
+<tr>
+<td>黑名单</td>
+<td><code>updateBlacklist(account, status)</code></td>
+<td>单个黑名单管理</td>
+</tr>
+<tr>
+<td>黑名单</td>
+<td><code>batchUpdateBlacklist(accounts[], statuses[])</code></td>
+<td>批量黑名单管理</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AML 机制</strong>：追踪每个账户 <code>cumulativeTradeVolume</code>，超过 <code>amlThreshold</code>（默认 50000 ETH）自动标记 <code>amlFlagged</code>。支持四级风险等级（0=安全, 1=低风险, 2=中风险, 3=高风险）。</p>
+<hr />
+<h3>3.3 RWAToken.sol — 资产代币（4.1 / 4.2.1）</h3>
+<p><strong>功能</strong>：ERC-20 代币 + 白名单机制 + 合规检查 + 暂停控制</p>
+<h4>核心状态</h4>
+<pre><code class="language-solidity">string public name;                // 代币名称
+string public symbol;              // 代币符号
+uint8 public decimals = 18;
+uint256 public totalSupply;
+string public assetType;           // 资产类型
+uint256 public assetValue;         // 资产估值（美元）
+address public spvAddress;         // SPV 地址
+address public complianceContract; // 合规合约引用
+mapping(address =&gt; bool) public whitelisted; // 白名单
+bool public paused;                // 暂停标志
+bool public complianceCheckEnabled; // 合规检查开关
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mint(to, amount)</code></td>
+<td>铸造代币（仅管理员）</td>
+</tr>
+<tr>
+<td><code>batchMint(recipients[], amounts[])</code></td>
+<td>批量铸造</td>
+</tr>
+<tr>
+<td><code>burn(amount)</code></td>
+<td>销毁代币</td>
+</tr>
+<tr>
+<td><code>transfer(to, amount) → bool</code></td>
+<td>转账（含白名单 + 合规双重检查）</td>
+</tr>
+<tr>
+<td><code>updateWhitelist(account, status)</code></td>
+<td>单个白名单管理</td>
+</tr>
+<tr>
+<td><code>batchUpdateWhitelist(accounts[], statuses[])</code></td>
+<td>批量白名单管理</td>
+</tr>
+<tr>
+<td><code>updateAssetValue(newValue)</code></td>
+<td>更新资产估值</td>
+</tr>
+<tr>
+<td><code>getTokenPrice() → uint256</code></td>
+<td>代币单价 = assetValue / totalSupply</td>
+</tr>
+<tr>
+<td><code>getTokenInfo() → (name, symbol, assetType, assetValue, totalSupply, tokenPrice, whitelistedCount)</code></td>
+<td>完整代币信息</td>
+</tr>
+<tr>
+<td><code>pause()</code> / <code>unpause()</code></td>
+<td>紧急暂停/恢复</td>
+</tr>
+<tr>
+<td><code>toggleComplianceCheck(bool)</code></td>
+<td>合规检查开关</td>
+</tr>
+</tbody>
+</table>
+<p><strong>转账流程</strong>：</p>
+<pre><code>transfer(to, amount)
+  ├── require(!paused, &quot;contract is paused&quot;)
+  ├── require(whitelisted[from] &amp;&amp; whitelisted[to], &quot;not whitelisted&quot;)
+  ├── if complianceCheckEnabled → checkTransfer(from, to, amount)
+  └── 标准 ERC-20 转账
+</code></pre>
+<hr />
+<h3>3.4 Marketplace.sol — 交易市场（4.2.3）</h3>
+<p><strong>功能</strong>：订单簿交易 + 做市商系统 + OTC 场外交易</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">struct SellOrder {
+    uint256 orderId;
+    address seller;
+    address tokenAddress;
+    uint256 amount;             // 剩余数量
+    uint256 totalAmount;        // 原始数量
+    uint256 pricePerToken;      // 单价（wei）
+    uint256 timestamp;
+    bool active;
+}
+
+struct MarketQuote {
+    address maker;
+    address token;
+    uint256 bidPrice;           // 买入价
+    uint256 askPrice;           // 卖出价
+    uint256 bidAmount;          // 买入量
+    uint256 askAmount;          // 卖出量
+    uint256 updatedAt;
+    bool active;
+}
+
+enum OTCStatus { Pending, Accepted, Settled, Cancelled }
+
+struct OTCTrade {
+    uint256 tradeId;
+    address partyA;             // 发起方
+    address partyB;             // 对手方
+    address token;
+    uint256 amount;
+    uint256 price;
+    uint256 createdAt;
+    uint256 settledAt;
+    OTCStatus status;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>交易模式</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>订单簿</td>
+<td><code>createSellOrder(token, amount, pricePerToken) → uint256</code></td>
+<td>挂卖单</td>
+</tr>
+<tr>
+<td>订单簿</td>
+<td><code>buyTokens(orderId, amount)</code></td>
+<td>购买（支持部分成交）</td>
+</tr>
+<tr>
+<td>订单簿</td>
+<td><code>buyAllTokens(orderId)</code></td>
+<td>全额购买</td>
+</tr>
+<tr>
+<td>订单簿</td>
+<td><code>cancelSellOrder(orderId)</code></td>
+<td>取消订单</td>
+</tr>
+<tr>
+<td>订单簿</td>
+<td><code>getOrderTotal(orderId, amount) → (totalPrice, fee)</code></td>
+<td>含手续费总价</td>
+</tr>
+<tr>
+<td>订单簿</td>
+<td><code>getActiveOrders() → uint256[]</code></td>
+<td>活跃订单列表</td>
+</tr>
+<tr>
+<td>做市商</td>
+<td><code>registerMarketMaker(maker)</code></td>
+<td>注册做市商</td>
+</tr>
+<tr>
+<td>做市商</td>
+<td><code>updateQuote(token, bidPrice, askPrice, bidAmount, askAmount)</code></td>
+<td>更新双向报价</td>
+</tr>
+<tr>
+<td>做市商</td>
+<td><code>buyFromMaker(maker, token, amount)</code></td>
+<td>以 ask 价买入</td>
+</tr>
+<tr>
+<td>做市商</td>
+<td><code>sellToMaker(maker, token, amount)</code></td>
+<td>以 bid 价卖出</td>
+</tr>
+<tr>
+<td>OTC</td>
+<td><code>proposeOTC(partyB, token, amount, price) → uint256</code></td>
+<td>发起交易意向</td>
+</tr>
+<tr>
+<td>OTC</td>
+<td><code>acceptOTC(tradeId)</code></td>
+<td>接受意向（Pending → Accepted）</td>
+</tr>
+<tr>
+<td>OTC</td>
+<td><code>settleOTC(tradeId)</code></td>
+<td>结算（Accepted → Settled）</td>
+</tr>
+<tr>
+<td>OTC</td>
+<td><code>cancelOTC(tradeId)</code></td>
+<td>取消（→ Cancelled）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>手续费</strong>：<code>feeRate = 25</code>（0.25%），每笔成交自动扣除。</p>
+<p><strong>安全防护</strong>：<code>whenNotPaused</code> 修饰符 + <code>nonReentrant</code> 修饰符覆盖全部资金操作函数。</p>
+<hr />
+<h3>3.5 DutchAuction.sol — 荷兰式拍卖（4.2.3）</h3>
+<p><strong>功能</strong>：降价式拍卖，价格随时间线性递减</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">enum AuctionStatus { Active, Settled, Cancelled }
+
+struct Auction {
+    uint256 auctionId;
+    address seller;
+    address tokenAddress;
+    uint256 tokenAmount;
+    uint256 startPrice;          // 起始价
+    uint256 reservePrice;        // 保留价（最低价）
+    uint256 priceDecrement;      // 每次降价幅度
+    uint256 decrementInterval;   // 降价间隔（秒）
+    uint256 startAt;
+    uint256 endAt;
+    uint256 currentPrice;        // 实时当前价
+    address winner;
+    uint256 settledAt;
+    AuctionStatus status;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createAuction(token, amount, startPrice, reservePrice, priceDecrement, decrementInterval, duration) → uint256</code></td>
+<td>创建拍卖</td>
+</tr>
+<tr>
+<td><code>getCurrentPrice(auctionId) → uint256</code></td>
+<td>实时价格 = max(reservePrice, startPrice - priceDecrement × 已过区间数)</td>
+</tr>
+<tr>
+<td><code>bid(auctionId)</code></td>
+<td>以当前价竞拍成交</td>
+</tr>
+<tr>
+<td><code>cancelAuction(auctionId)</code></td>
+<td>取消拍卖并退回代币</td>
+</tr>
+<tr>
+<td><code>getAuctionStats() → (total, settled, volume)</code></td>
+<td>拍卖统计数据</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>3.6 RevenueDistributor.sol — 收益分配（4.3.3）</h3>
+<p><strong>功能</strong>：收益存入 → 按比例分配 → 领取 + 自动再投资</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">struct Distribution {
+    uint256 distributionId;
+    uint256 totalAmount;         // 分配总额
+    uint256 timestamp;
+    uint256 snapshotBlock;       // 快照区块号
+    string revenueType;          // 收益类型（租金/股息/利息）
+    bool finalized;
+    uint256 claimedAmount;       // 已领取金额
+    uint256 investorCount;
+}
+
+struct ClaimRecord {
+    uint256 amount;              // 分配金额
+    uint256 timestamp;
+    bool claimed;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>depositRevenue(revenueType)</code> payable</td>
+<td>存入收益（ETH）</td>
+</tr>
+<tr>
+<td><code>createDistribution(totalAmount, revenueType, investors[], amounts[])</code></td>
+<td>创建分配方案</td>
+</tr>
+<tr>
+<td><code>distributeByHolding(revenueType, holders[], balances[])</code> payable</td>
+<td>按持仓比例自动分配</td>
+</tr>
+<tr>
+<td><code>claim(distributionId)</code></td>
+<td>领取收益（防重入）</td>
+</tr>
+<tr>
+<td><code>batchClaim(distributionIds[])</code></td>
+<td>批量领取</td>
+</tr>
+<tr>
+<td><code>toggleAutoReinvest(enabled)</code></td>
+<td>开启/关闭自动再投资</td>
+</tr>
+<tr>
+<td><code>claimWithReinvest(distributionId)</code></td>
+<td>领取收益并自动购买更多代币</td>
+</tr>
+<tr>
+<td><code>getClaimableDistributions(investor) → uint256[]</code></td>
+<td>可领取分配列表</td>
+</tr>
+<tr>
+<td><code>getSystemStats() → (count, totalDist, totalClaimed, balance)</code></td>
+<td>系统统计</td>
+</tr>
+</tbody>
+</table>
+<p><strong>防重入</strong>：<code>claim()</code>、<code>batchClaim()</code>、<code>claimWithReinvest()</code> 均使用 <code>nonReentrant</code> 修饰符。</p>
+<hr />
+<h3>3.7 LegalEnforcement.sol — 智能合约法律等效（4.3.1）</h3>
+<p><strong>功能</strong>：法律条款编码 + 争议仲裁 + 法律事件触发 + 监管报告生成</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">enum Status { Pending, Arbitrating, Resolved, Cancelled }
+
+struct LegalClause {
+    uint256 clauseId;
+    uint256 assetId;
+    string title;
+    string contentHash;         // IPFS 哈希
+    bytes executionCode;        // 可执行代码字节
+    uint256 effectiveAt;
+    bool isActive;
+}
+
+struct Dispute {
+    uint256 disputeId;
+    uint256 assetId;
+    address plaintiff;          // 原告
+    address defendant;          // 被告
+    string reasonHash;          // 争议原因 IPFS 哈希
+    uint256 createdAt;
+    uint256 resolvedAt;
+    Status status;
+    string verdictHash;         // 裁决结果哈希
+    bool plaintiffFavored;      // 原告是否胜诉
+}
+
+struct LegalEvent {
+    uint256 eventId;
+    uint256 assetId;
+    string eventType;
+    string triggerCondition;
+    uint256 triggerAt;
+    bool executed;
+    string executionHash;
+}
+
+struct RegulatoryReport {
+    uint256 reportId;
+    uint256 assetId;
+    string reportType;
+    string contentHash;
+    uint256 generatedAt;
+    bool verified;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>条款</td>
+<td><code>encodeClause(assetId, title, contentHash, executionCode) → uint256</code></td>
+<td>编码法律条款</td>
+</tr>
+<tr>
+<td>条款</td>
+<td><code>deactivateClause(clauseId)</code></td>
+<td>废止条款</td>
+</tr>
+<tr>
+<td>争议</td>
+<td><code>fileDispute(assetId, defendant, reasonHash) → uint256</code></td>
+<td>发起争议（→ Pending）</td>
+</tr>
+<tr>
+<td>争议</td>
+<td><code>resolveDispute(disputeId, plaintiffFavored, verdictHash)</code></td>
+<td>仲裁裁决（→ Resolved，仅仲裁员）</td>
+</tr>
+<tr>
+<td>争议</td>
+<td><code>cancelDispute(disputeId)</code></td>
+<td>取消争议（→ Cancelled）</td>
+</tr>
+<tr>
+<td>事件</td>
+<td><code>registerLegalEvent(assetId, eventType, triggerCondition) → uint256</code></td>
+<td>注册法律事件</td>
+</tr>
+<tr>
+<td>事件</td>
+<td><code>triggerLegalEvent(eventId)</code></td>
+<td>触发事件</td>
+</tr>
+<tr>
+<td>事件</td>
+<td><code>executeLegalEvent(eventId, executionHash)</code></td>
+<td>执行事件</td>
+</tr>
+<tr>
+<td>报告</td>
+<td><code>generateReport(assetId, reportType, contentHash) → uint256</code></td>
+<td>生成监管报告</td>
+</tr>
+<tr>
+<td>报告</td>
+<td><code>verifyReport(reportId)</code></td>
+<td>验证报告</td>
+</tr>
+<tr>
+<td>统计</td>
+<td><code>getSystemStats() → (clauseCount, disputeCount, eventCount, reportCount, pendingDisputes)</code></td>
+<td>系统统计</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>3.8 Valuation.sol — 动态估值系统（4.3.2）</h3>
+<p><strong>功能</strong>：四种估值方法 + 加权综合估值</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">enum Method { DiscountedCashFlow, ComparableCompany, Cost, Market }
+
+struct ValuationRecord {
+    uint256 valuationId;
+    uint256 assetId;
+    Method method;              // 估值方法
+    uint256 estimatedValue;     // 估计价值
+    uint256 timestamp;
+    string paramsHash;          // 参数 IPFS 哈希
+    address appraiser;          // 评估人
+    bool verified;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>函数</th>
+<th>计算公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DCF</td>
+<td><code>valuationByDCF(assetId, cashFlows[], discountRate, paramsHash) → uint256</code></td>
+<td>Σ(cashFlow / (1 + r)^n)</td>
+</tr>
+<tr>
+<td>可比公司</td>
+<td><code>valuationByComparable(assetId, comparableValue, adjustmentRate, paramsHash) → uint256</code></td>
+<td>comparableValue × (1 + adjustmentRate/10000)</td>
+</tr>
+<tr>
+<td>成本法</td>
+<td><code>valuationByCost(assetId, replacementCost, depreciationRate, paramsHash) → uint256</code></td>
+<td>replacementCost × (1 - depreciationRate/10000)</td>
+</tr>
+<tr>
+<td>市场法</td>
+<td><code>valuationByMarket(assetId, recentTradePrice, marketAdjustFactor, paramsHash) → uint256</code></td>
+<td>recentTradePrice × marketAdjustFactor / 10000</td>
+</tr>
+<tr>
+<td>综合</td>
+<td><code>computeCompositeValue(assetId, valuationIds[], weights[]) → uint256</code></td>
+<td>Σ(value_i × weight_i) / Σ(weight_i)</td>
+</tr>
+<tr>
+<td>查询</td>
+<td><code>getLatestCompositeValue(assetId) → uint256</code></td>
+<td>最新加权综合估值</td>
+</tr>
+<tr>
+<td>查询</td>
+<td><code>getAssetValuations(assetId) → uint256[]</code></td>
+<td>资产全部估值 ID</td>
+</tr>
+<tr>
+<td>验证</td>
+<td><code>verifyValuation(valuationId)</code></td>
+<td>标记估值已验证</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>3.9 RiskManager.sol — 风险管理（4.4）</h3>
+<p><strong>功能</strong>：抵押仓位管理 + 清算机制 + 压力测试 + 保险绑定</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">struct Position {
+    address owner;
+    address collateralToken;
+    address borrowToken;
+    uint256 collateralAmount;
+    uint256 borrowAmount;
+    uint256 createdAt;
+    bool isActive;
+}
+
+struct RiskParams {
+    uint256 minCollateralRatio;    // 最低抵押率（默认 150%）
+    uint256 liquidationThreshold;  // 清算阈值（默认 120%）
+    uint256 liquidationPenalty;    // 清算罚金（默认 10%）
+    uint256 maxLeverage;           // 最大杠杆（默认 3x）
+}
+
+struct StressScenario {
+    uint256 scenarioId;
+    string name;
+    uint256 priceDropPercent;      // 跌幅（基点）
+    uint256 liquidationRatio;      // 预期清算比例
+    uint256 testedAt;
+    uint256 affectedPositions;     // 受影响仓位数量
+    bool passed;
+    string reportHash;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仓位</td>
+<td><code>createPosition(collateralToken, borrowToken, collateralAmount, borrowAmount) → uint256</code></td>
+<td>创建抵押仓位</td>
+</tr>
+<tr>
+<td>仓位</td>
+<td><code>addCollateral(positionId, amount)</code></td>
+<td>追加抵押品</td>
+</tr>
+<tr>
+<td>仓位</td>
+<td><code>repayDebt(positionId, amount)</code></td>
+<td>归还借款</td>
+</tr>
+<tr>
+<td>仓位</td>
+<td><code>closePosition(positionId)</code></td>
+<td>平仓</td>
+</tr>
+<tr>
+<td>清算</td>
+<td><code>liquidate(positionId)</code></td>
+<td>清算不健康仓位（任何人可触发）</td>
+</tr>
+<tr>
+<td>清算</td>
+<td><code>liquidateWithInsurance(positionId)</code></td>
+<td>清算 + 同步触发保险理赔</td>
+</tr>
+<tr>
+<td>清算</td>
+<td><code>isLiquidatable(positionId) → bool</code></td>
+<td>检查是否满足清算条件</td>
+</tr>
+<tr>
+<td>监控</td>
+<td><code>getCollateralRatio(positionId) → uint256</code></td>
+<td>抵押率 = collateralAmount / borrowAmount</td>
+</tr>
+<tr>
+<td>监控</td>
+<td><code>isPositionHealthy(positionId) → bool</code></td>
+<td>健康判断（抵押率 &gt; 清算阈值）</td>
+</tr>
+<tr>
+<td>监控</td>
+<td><code>detectUnhealthyPositions() → uint256[]</code></td>
+<td>检测所有不健康仓位</td>
+</tr>
+<tr>
+<td>压力测试</td>
+<td><code>runStressTest(name, priceDropPercent, reportHash) → uint256</code></td>
+<td>模拟价格下跌场景</td>
+</tr>
+<tr>
+<td>保险</td>
+<td><code>bindInsurance(positionId, policyId)</code></td>
+<td>仓位绑定保单</td>
+</tr>
+<tr>
+<td>保险</td>
+<td><code>getPositionInsurance(positionId) → (insured, policyId)</code></td>
+<td>查询绑定状态</td>
+</tr>
+<tr>
+<td>参数</td>
+<td><code>updateRiskParams(minRatio, liqThreshold, liqPenalty, maxLeverage)</code></td>
+<td>更新风险参数</td>
+</tr>
+<tr>
+<td>参数</td>
+<td><code>setSafetyThreshold(threshold)</code></td>
+<td>设置系统安全阈值</td>
+</tr>
+<tr>
+<td>统计</td>
+<td><code>getSystemRiskStats() → (...)</code></td>
+<td>系统风险统计</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>3.10 Insurance.sol — 保险集成（4.4）</h3>
+<p><strong>功能</strong>：保单发行与管理 + 理赔申请与审批</p>
+<h4>数据结构</h4>
+<pre><code class="language-solidity">enum PolicyStatus { Active, Claimed, Expired, Cancelled }
+enum ClaimStatus { Pending, Approved, Rejected, Paid }
+
+struct Policy {
+    uint256 policyId;
+    uint256 assetId;
+    address insured;            // 被保险人
+    address insurer;            // 承保人
+    uint256 coverageAmount;     // 保额
+    uint256 premium;            // 保费
+    uint256 startAt;
+    uint256 endAt;              // 到期时间
+    PolicyStatus status;
+    string termsHash;           // 条款 IPFS 哈希
+}
+
+struct Claim {
+    uint256 claimId;
+    uint256 policyId;
+    address claimant;
+    uint256 claimAmount;        // 理赔金额
+    string reasonHash;          // 理赔原因 IPFS 哈希
+    uint256 filedAt;
+    uint256 processedAt;
+    ClaimStatus status;
+}
+</code></pre>
+<h4>核心函数</h4>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>issuePolicy(assetId, insured, coverageAmount, premium, duration, termsHash) → uint256</code></td>
+<td>发行保单</td>
+</tr>
+<tr>
+<td><code>cancelPolicy(policyId)</code></td>
+<td>退保</td>
+</tr>
+<tr>
+<td><code>fileClaim(policyId, claimAmount, reasonHash) → uint256</code></td>
+<td>发起理赔（→ Pending）</td>
+</tr>
+<tr>
+<td><code>approveClaim(claimId)</code> payable</td>
+<td>批准理赔并支付（→ Paid，仅管理员）</td>
+</tr>
+<tr>
+<td><code>rejectClaim(claimId)</code></td>
+<td>拒绝理赔（→ Rejected）</td>
+</tr>
+<tr>
+<td><code>isPolicyActive(policyId) → bool</code></td>
+<td>保单有效性检查</td>
+</tr>
+<tr>
+<td><code>getInsuranceStats() → (policyCount, claimCount, totalCoverage, totalPremium, totalClaimPaid)</code></td>
+<td>保险统计</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>四、前端设计</h2>
+<h3>4.1 页面结构</h3>
+<p>前端采用侧边栏导航 + 主内容区布局，共 10 个子页面：</p>
+<pre><code>侧边栏导航：
+  ⊞ 总览         → 资产信息 + 账户状态 + 快速操作（铸造/白名单/KYC）
+  ↯ 交易市场     → 子导航：订单簿 | 做市商 | OTC 交易
+  $ 收益分配     → 收益存入 + 分配创建 + 领取 + 再投资
+  ⬡ 资产登记     → SPV 隔离资产列表 + 信息披露
+  ∿ 动态估值     → 综合估值 + 四种方法估值记录
+  ⓘ 荷兰拍卖     → 拍卖列表 + 实时价格 + 竞价
+  ◊ 保险集成     → 保单列表 + 理赔申请
+  § 法律等效     → 条款 / 争议 / 事件 / 报告
+  ⚠ 风险管理     → 仓位管理 + 压力测试 + 保险绑定
+  ⛔ AML 合规    → AML 监测 + 发行限制 + 风险等级管理
+</code></pre>
+<h3>4.2 技术实现</h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>实现方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPC 连接</td>
+<td>通过 <code>server.js</code> 的 <code>/rpc</code> 代理转发，POST 转发到 Hardhat Node :8545</td>
+</tr>
+<tr>
+<td>钱包签名</td>
+<td>内置 Hardhat Account #0 私钥创建 <code>ethers.Wallet</code>，免 MetaMask 交互</td>
+</tr>
+<tr>
+<td>合约实例</td>
+<td>10 个 <code>ethers.Contract</code>，均以 signer 创建（支持读 + 写操作）</td>
+</tr>
+<tr>
+<td>数据刷新</td>
+<td>页面切换时调用对应 refresh 函数，并行获取链上数据</td>
+</tr>
+<tr>
+<td>弹窗系统</td>
+<td>通用 <code>showModal({type, title, message, ...})</code> 支持 alert / confirm / input 模式</td>
+</tr>
+<tr>
+<td>Toast 通知</td>
+<td>操作结果以 toast 横幅提示，5 秒自动消失</td>
+</tr>
+<tr>
+<td>响应式布局</td>
+<td>桌面端双栏 → 平板单栏 → 移动端堆叠，断点 768px / 480px</td>
+</tr>
+<tr>
+<td>子导航切换</td>
+<td>交易市场内通过 JavaScript 动态切换订单簿 / 做市商 / OTC 三个子视图</td>
+</tr>
+</tbody>
+</table>
+<h3>4.3 种子数据机制</h3>
+<p>前端在首次加载时通过 <code>seedDemoData()</code> 自动检测各合约数据状态，若为空则创建演示数据：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>种子数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>资产登记</td>
+<td>3 个资产（写字楼/股权基金/基建债券）</td>
+</tr>
+<tr>
+<td>动态估值</td>
+<td>4 种方法估值 + 1 个综合估值 + 同步代币价格</td>
+</tr>
+<tr>
+<td>保险</td>
+<td>1 个保单 + 1 笔理赔</td>
+</tr>
+<tr>
+<td>法律</td>
+<td>4 条条款 + 1 笔争议 + 2 个事件 + 2 份报告</td>
+</tr>
+<tr>
+<td>荷兰拍卖</td>
+<td>1 场拍卖</td>
+</tr>
+<tr>
+<td>交易市场</td>
+<td>3 个卖单</td>
+</tr>
+<tr>
+<td>收益分配</td>
+<td>2 笔收益存入 + 2 笔分配方案</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>五、部署架构</h2>
+<h3>5.1 部署流程</h3>
+<pre><code>rwa.sh
+  │
+  ├── 1. npm install                   — 安装依赖
+  ├── 2. npx hardhat compile           — 编译 10 个合约
+  ├── 3. npx hardhat node &amp;            — 后台启动 Hardhat Node
+  ├── 4. npx hardhat run scripts/deploy.js --network localhost
+  │       └── 10 个合约按依赖顺序部署
+  │           Compliance → RWAToken → Marketplace → RevenueDistributor
+  │           → RiskManager → AssetRegistry → LegalEnforcement
+  │           → Valuation → DutchAuction → Insurance
+  ├── 5. npx hardhat run scripts/init-data.js --network localhost
+  │       └── 补充演示数据（卖单/做市商/拍卖/OTC/收益/保险/估值/仓位/压力测试）
+  ├── 6. node scripts/sync-addresses.js — 同步合约地址到 frontend/app.js
+  └── 7. node server.js                — 启动前端服务（:8080）
+</code></pre>
+<h3>5.2 本地开发环境拓扑</h3>
+<pre><code>┌────────────────┐         ┌────────────────┐         ┌────────────────┐
+│   Browser      │ ──GET→  │  Node Server   │ ──RPC→  │  Hardhat Node  │
+│ localhost:8080 │ ←HTML── │  0.0.0.0:8080  │ ←JSON── │ 127.0.0.1:8545 │
+│  10 个子页面    │         │ 静态托管+RPC代理 │         │  Chain 31337   │
+└────────────────┘         └────────────────┘         └────────────────┘
+</code></pre>
+<h3>5.3 部署顺序与依赖关系</h3>
+<pre><code>Compliance (无依赖)
+  ├→ RWAToken       (setComplianceContract)
+  ├→ Marketplace    (构造参数需 Compliance + RWAToken)
+  ├→ RevenueDistributor (setComplianceContract)
+  └→ RiskManager    (构造参数需 Compliance)
+
+AssetRegistry     (无依赖)
+LegalEnforcement  (无依赖)
+Valuation         (无依赖)
+DutchAuction      (无依赖)
+Insurance         (无依赖)
+  └→ RiskManager  (setInsuranceContract)
+</code></pre>
+<hr />
+<h2>六、安全设计</h2>
+<h3>6.1 访问控制</h3>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>权限范围</th>
+<th>涉及合约</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管理员 (admin)</td>
+<td>铸造代币、白名单管理、KYC 认证、估值、发行保单、参数设置</td>
+<td>全部 10 个合约</td>
+</tr>
+<tr>
+<td>仲裁员 (arbitrator)</td>
+<td>争议裁决</td>
+<td>LegalEnforcement</td>
+</tr>
+<tr>
+<td>认证用户</td>
+<td>转账、交易、领取收益、创建拍卖</td>
+<td>RWAToken / Marketplace / Revenue / DutchAuction</td>
+</tr>
+<tr>
+<td>未认证用户</td>
+<td>仅查看（public view 函数）</td>
+<td>全部</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 安全机制汇总</h3>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>实现</th>
+<th style="text-align: center;">覆盖函数数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重入防护</td>
+<td>自定义 <code>nonReentrant</code> 修饰符（<code>_reentrancyStatus</code> 状态位）</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr>
+<td>暂停控制</td>
+<td><code>whenNotPaused</code> 修饰符</td>
+<td style="text-align: center;">RWAToken(2) + Marketplace(8)</td>
+</tr>
+<tr>
+<td>白名单校验</td>
+<td><code>onlyWhitelisted</code> 修饰符 + 转账前检查</td>
+<td style="text-align: center;">RWAToken transfer</td>
+</tr>
+<tr>
+<td>合规检查</td>
+<td>转账/交易前调用 <code>checkTransfer(from, to, amount)</code></td>
+<td style="text-align: center;">RWAToken + Marketplace</td>
+</tr>
+<tr>
+<td>黑名单</td>
+<td>封禁违规地址</td>
+<td style="text-align: center;">Compliance</td>
+</tr>
+<tr>
+<td>路径穿越防护</td>
+<td>服务端 <code>filePath.startsWith(FRONTEND_DIR)</code> 检查</td>
+<td style="text-align: center;">server.js</td>
+</tr>
+<tr>
+<td>整数溢出防护</td>
+<td>Solidity 0.8.28 内置检查</td>
+<td style="text-align: center;">全部 10 合约</td>
+</tr>
+<tr>
+<td>超额支付退款</td>
+<td>买方支付超额的 ETH 自动退还</td>
+<td style="text-align: center;">Marketplace</td>
+</tr>
+</tbody>
+</table>
+<h3>6.3 参数默认值</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align: center;">默认值</th>
+<th>合约</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手续费率</td>
+<td style="text-align: center;">0.25%</td>
+<td>Marketplace</td>
+</tr>
+<tr>
+<td>最低抵押率</td>
+<td style="text-align: center;">150%</td>
+<td>RiskManager</td>
+</tr>
+<tr>
+<td>清算阈值</td>
+<td style="text-align: center;">120%</td>
+<td>RiskManager</td>
+</tr>
+<tr>
+<td>清算罚金</td>
+<td style="text-align: center;">10%</td>
+<td>RiskManager</td>
+</tr>
+<tr>
+<td>最大杠杆</td>
+<td style="text-align: center;">3x</td>
+<td>RiskManager</td>
+</tr>
+<tr>
+<td>AML 阈值</td>
+<td style="text-align: center;">50000 ETH</td>
+<td>Compliance</td>
+</tr>
+<tr>
+<td>安全阈值</td>
+<td style="text-align: center;">130%</td>
+<td>RiskManager</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>七、技术选型</h2>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>选型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>智能合约语言</td>
+<td>Solidity ^0.8.28</td>
+<td>最新稳定版本，内置算术溢出检查</td>
+</tr>
+<tr>
+<td>开发框架</td>
+<td>Hardhat 2</td>
+<td>完整的编译/部署/测试工具链</td>
+</tr>
+<tr>
+<td>代币标准</td>
+<td>ERC-20（自实现）</td>
+<td>内置白名单 + 合规检查，满足 RWA 特殊需求</td>
+</tr>
+<tr>
+<td>前端技术</td>
+<td>HTML5 + CSS3 + JS ES6</td>
+<td>纯原生实现，零框架依赖，打包小巧</td>
+</tr>
+<tr>
+<td>区块链交互</td>
+<td>ethers.js 6.7</td>
+<td>现代化以太坊 SDK，完整的 Contract API</td>
+</tr>
+<tr>
+<td>本地区块链</td>
+<td>Hardhat Network</td>
+<td>Chain ID 31337，预置 20 个测试账户各 10000 ETH</td>
+</tr>
+<tr>
+<td>前端服务</td>
+<td>Node.js HTTP Server</td>
+<td>静态托管 + RPC 代理，解决浏览器直连 8545 的跨域问题</td>
+</tr>
+<tr>
+<td>钱包方案</td>
+<td>内置私钥签名</td>
+<td>本地测试跳过 MetaMask 安装与授权，降低使用门槛</td>
+</tr>
+<tr>
+<td>文件存证</td>
+<td>IPFS 内容哈希</td>
+<td>法律文件、信息披露、估值参数以 Qm... 哈希上链存证</td>
+</tr>
+<tr>
+<td>合约架构</td>
+<td>独立合约 + 地址引用</td>
+<td>10 个合约松耦合，通过地址引用关联，无继承依赖</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>八、创新点总结</h2>
+<table>
+<thead>
+<tr>
+<th>创新点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>设计要求全覆盖</strong></td>
+<td>完整覆盖《项目设计要求文档》4.1-4.4 全部模块，10 个合约 125 个函数</td>
+</tr>
+<tr>
+<td><strong>SPV 风险隔离</strong></td>
+<td>每个资产绑定独立 SPV 地址，资产间风险隔离，保障投资者权益</td>
+</tr>
+<tr>
+<td><strong>四类资产支持</strong></td>
+<td>同时支持房地产、股权、债券、大宗商品代币化，每种有独立登记类型</td>
+</tr>
+<tr>
+<td><strong>四种交易模式</strong></td>
+<td>订单簿 + 做市商 + 荷兰拍卖 + OTC 场外，覆盖不同投资者需求</td>
+</tr>
+<tr>
+<td><strong>四维估值体系</strong></td>
+<td>DCF + 可比公司法 + 成本法 + 市场法 + 加权综合，多角度评定资产价值</td>
+</tr>
+<tr>
+<td><strong>法律等效完整</strong></td>
+<td>条款编码、争议仲裁（四状态）、法律事件触发、监管报告生成，四维法律保障</td>
+</tr>
+<tr>
+<td><strong>自动化收益</strong></td>
+<td>收益存入 + 按比例分配 + 自动领取 + 自动再投资，实现完全自动化</td>
+</tr>
+<tr>
+<td><strong>五维风控</strong></td>
+<td>抵押率监控 + 压力测试 + 保险绑定 + 自动清算 + 动态参数</td>
+</tr>
+<tr>
+<td><strong>深入合规</strong></td>
+<td>KYC 批量认证 + AML 四级风险等级 + 黑名单 + 发行/转让限制</td>
+</tr>
+<tr>
+<td><strong>一键部署</strong></td>
+<td><code>rwa.sh</code> 从安装依赖到启动前端全自动化</td>
+</tr>
+<tr>
+<td><strong>零门槛使用</strong></td>
+<td>内置私钥签名，无需安装 MetaMask，浏览器打开即用</td>
+</tr>
+<tr>
+<td><strong>安全第一</strong></td>
+<td>暂停控制 + 重入防护 + 白名单 + 合规检查 + 黑名单 + 路径穿越防护</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p>📅 设计完成日期：2026-06-30 | 版本 V3.0</p>
+</blockquote>
+
+<div class="footer">
+  © 2026 现实世界资产代币化系统（RWA）— 设计说明文档
+</div>
+
+</div>
+</body>
+</html>

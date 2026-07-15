@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "knowledge-graph": {
+      "command": "node",
+      "args": [
+        "/workspace/.agent/mcp/knowledge-graph/main.js"
+      ]
+    }
+  }
+}

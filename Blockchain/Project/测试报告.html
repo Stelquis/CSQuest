@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>测试报告 — 现实世界资产代币化系统（RWA）</title>
+<style>
+/* ===== 根字体：基于它所有 rem 自动缩放 ===== */
+html { font-size: 100%; }  /* 浏览器默认 16px */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: #2c3e50;
+  background: #fff;
+}
+
+/* ===== 容器：vw 视口宽度，缩放自动重排，无上限 ===== */
+.container {
+  width: 80vw;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ===== 封面 ===== */
+.cover {
+  text-align: center;
+  padding: 5rem 0 3rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+}
+.cover .logo {
+  font-size: 3.5rem;
+  color: #1a73e8;
+  margin-bottom: 1.25rem;
+}
+.cover h1 {
+  font-size: 1.6rem;
+  color: #1a2a3a;
+  border: none;
+  margin-bottom: 0.75rem;
+}
+.cover .subtitle {
+  font-size: 0.85rem;
+  color: #888;
+}
+.cover .meta {
+  font-size: 0.8rem;
+  color: #999;
+  line-height: 2.2;
+  margin-top: 2.25rem;
+}
+.cover .divider {
+  width: 4rem;
+  height: 0.2rem;
+  background: #1a73e8;
+  margin: 1.5rem auto;
+}
+
+/* ===== 标题 ===== */
+h1 {
+  font-size: 1.35rem;
+  color: #1a73e8;
+  border-bottom: 0.15rem solid #1a73e8;
+  padding-bottom: 0.6rem;
+  margin: 2.25rem 0 1.25rem;
+}
+h1:first-of-type {
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.05rem;
+  color: #2c3e50;
+  border-left: 0.25rem solid #1a73e8;
+  padding-left: 0.75rem;
+  margin: 1.8rem 0 0.85rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 1.5rem 0 0.6rem;
+}
+
+h4 {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 1.1rem 0 0.5rem;
+}
+
+/* ===== 表格：自适应缩放 ===== */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.8rem;
+}
+th, td {
+  border: 1px solid #dde1e7;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  word-break: break-word;
+}
+th {
+  background: #e8f0fe;
+  color: #1a73e8;
+  font-weight: 600;
+}
+tr:nth-child(even) { background: #f8f9fb; }
+
+/* ===== 代码 ===== */
+code {
+  background: #f0f0f0;
+  padding: 0.125rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 0.82rem;
+  color: #c7254e;
+  word-break: break-all;
+}
+
+pre {
+  background: #f6f8fa;
+  border: 1px solid #dde1e7;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin: 0.85rem 0;
+  white-space: pre-wrap;       /* 自动换行 */
+  word-wrap: break-word;
+}
+pre code {
+  background: none;
+  padding: 0;
+  color: #24292f;
+  font-size: 0.78rem;
+  word-break: normal;
+}
+
+/* ===== 引用 ===== */
+blockquote {
+  border-left: 0.25rem solid #1a73e8;
+  margin: 1rem 0;
+  padding: 0.6rem 1.25rem;
+  background: #f0f7ff;
+  color: #666;
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e8eaed;
+  margin: 2rem 0;
+}
+
+/* ===== 列表 ===== */
+ul, ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin: 0.3rem 0; }
+
+/* ===== 图片 ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.75rem rgba(0,0,0,0.10);
+  margin: 0.75rem 0;
+  display: block;
+}
+
+/* ===== 文本 ===== */
+strong { color: #1a1a1a; }
+p { margin: 0.6rem 0; }
+a { color: #1a73e8; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== 页脚 ===== */
+.footer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e8eaed;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
+/* ===== 响应式：小屏进一步优化 ===== */
+@media screen and (max-width: 600px) {
+  .container {
+    width: 96%;
+    padding: 1.5rem 1rem 2rem;
+  }
+  .cover { padding: 3rem 0 2rem; }
+  .cover h1 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="cover">
+  <div class="logo">⬡</div>
+  <div class="divider"></div>
+  <h1>现实世界资产代币化系统（RWA）</h1>
+  <div class="subtitle">Real World Asset Tokenization System</div>
+  <div class="meta">
+    作者：牛晨勋 &nbsp;|&nbsp; 学号：8208231403 &nbsp;|&nbsp; 班级：大数据 2304<br>
+    课程：区块链与 Web3 综合实践项目设计 &nbsp;|&nbsp; 项目类型：项目四<br>
+    完成日期：2026-06-30 &nbsp;|&nbsp; 版本：V3.0
+  </div>
+</div>
+
+<h1>现实世界资产代币化系统 (RWA) — 测试报告</h1>
+<hr />
+<h2>一、测试概述</h2>
+<h3>1.1 测试环境</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>操作系统</td>
+<td>Linux (Ubuntu 22.04)</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>18+</td>
+</tr>
+<tr>
+<td>开发框架</td>
+<td>Hardhat 2.x</td>
+</tr>
+<tr>
+<td>Solidity 版本</td>
+<td>^0.8.28</td>
+</tr>
+<tr>
+<td>本地区块链</td>
+<td>Hardhat Network (Chain ID: 31337)</td>
+</tr>
+<tr>
+<td>前端服务</td>
+<td>Node.js HTTP Server (:8080) + RPC 代理</td>
+</tr>
+<tr>
+<td>浏览器</td>
+<td>Chrome / Edge</td>
+</tr>
+<tr>
+<td>钱包方案</td>
+<td>内置 Hardhat Account #0 私钥签名</td>
+</tr>
+<tr>
+<td>测试合约数</td>
+<td>10 个（全部部署并验证）</td>
+</tr>
+<tr>
+<td>测试日期</td>
+<td>2026-06-30</td>
+</tr>
+<tr>
+<td>测试账户</td>
+<td>Hardhat Account #0-3</td>
+</tr>
+</tbody>
+</table>
+<h3>1.2 测试范围</h3>
+<p>本次测试覆盖《项目设计要求文档》4.1-4.4 全部模块，包括：</p>
+<ul>
+<li><strong>智能合约层</strong>：10 个合约全部功能测试</li>
+<li><strong>前端层</strong>：10 个子页面交互功能测试</li>
+<li><strong>安全层</strong>：权限控制、重入防护、暂停机制、输入校验</li>
+</ul>
+<h3>1.3 测试方法</h3>
+<p>采用手动功能测试 + 脚本自动化验证相结合的方式：
+- 合约功能通过 Hardhat Console 脚本依次调用验证
+- 合约状态通过 <code>scripts/verify-all.js</code> 批量验证
+- 前端功能通过浏览器手动交互测试
+- 安全测试通过构造异常输入和权限越界场景验证</p>
+<hr />
+<h2>二、编译测试</h2>
+<h3>2.1 合约编译</h3>
+<pre><code class="language-bash">$ npx hardhat compile
+Compiled 10 Solidity files successfully (solc 0.8.28)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>合约</th>
+<th>文件名</th>
+<th style="text-align: center;">编译状态</th>
+<th style="text-align: center;">警告</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>资产代币</td>
+<td>RWAToken.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>资产登记层</td>
+<td>AssetRegistry.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>合规引擎</td>
+<td>Compliance.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>交易市场</td>
+<td>Marketplace.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>荷兰式拍卖</td>
+<td>DutchAuction.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>收益分配</td>
+<td>RevenueDistributor.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>法律等效</td>
+<td>LegalEnforcement.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>动态估值</td>
+<td>Valuation.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>风险管理</td>
+<td>RiskManager.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>保险集成</td>
+<td>Insurance.sol</td>
+<td style="text-align: center;">✅ 成功</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong>：10 个合约全部编译通过，零警告。</p>
+<hr />
+<h2>三、部署测试</h2>
+<h3>3.1 合约部署</h3>
+<pre><code class="language-bash">$ npx hardhat run scripts/deploy.js --network localhost
+
+  RWA 资产代币化系统 - 合约部署
+  ================================
+
+【4.2.2】部署 Compliance 合规引擎......      ✅
+【4.2.1】部署 RWAToken 资产代币............ ✅
+【4.2.3】部署 Marketplace 交易市场.......... ✅
+【4.3.3】部署 RevenueDistributor 收益分配... ✅
+【4.4】  部署 RiskManager 风险管理.......... ✅
+【4.2.1】部署 AssetRegistry 资产登记层...... ✅
+【4.3.1】部署 LegalEnforcement 法律等效..... ✅
+【4.3.2】部署 Valuation 动态估值系统........ ✅
+【4.2.3】部署 DutchAuction 荷兰式拍卖....... ✅
+【4.4】  部署 Insurance 保险集成............ ✅
+</code></pre>
+<h3>3.2 合约关联配置</h3>
+<table>
+<thead>
+<tr>
+<th>关联操作</th>
+<th>调用函数</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RWAToken → Compliance</td>
+<td><code>setComplianceContract(complianceAddr)</code></td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>Marketplace → Compliance</td>
+<td>构造参数</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>RevenueDistributor → Compliance</td>
+<td><code>setComplianceContract(complianceAddr)</code></td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>RevenueDistributor → RWAToken</td>
+<td><code>setReinvestToken(rwaTokenAddr)</code></td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>RiskManager → Insurance</td>
+<td><code>setInsuranceContract(insuranceAddr)</code></td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>Compliance → RWAToken</td>
+<td><code>setRWAToken(rwaTokenAddr)</code></td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 部署脚本预置数据验证</h3>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>预置操作</th>
+<th style="text-align: center;">数量</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>合规</td>
+<td>KYC 认证</td>
+<td style="text-align: center;">4 账户</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>合规</td>
+<td>转让限制设置</td>
+<td style="text-align: center;">1 账户</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>合规</td>
+<td>发行限制配置</td>
+<td style="text-align: center;">1 组</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>合规</td>
+<td>AML 阈值设置</td>
+<td style="text-align: center;">50000 ETH</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>代币</td>
+<td>白名单添加</td>
+<td style="text-align: center;">4 账户</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>代币</td>
+<td>代币铸造</td>
+<td style="text-align: center;">190,000 RWA</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>资产登记</td>
+<td>多类型资产</td>
+<td style="text-align: center;">4 个</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>资产登记</td>
+<td>信息披露</td>
+<td style="text-align: center;">2 条</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>法律</td>
+<td>条款编码</td>
+<td style="text-align: center;">4 条</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>法律</td>
+<td>法律事件</td>
+<td style="text-align: center;">2 个</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>法律</td>
+<td>监管报告</td>
+<td style="text-align: center;">2 份</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>估值</td>
+<td>四种方法估值</td>
+<td style="text-align: center;">4 条</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>估值</td>
+<td>综合估值</td>
+<td style="text-align: center;">1 个</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>估值</td>
+<td>代币价格同步</td>
+<td style="text-align: center;">1 次</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>保险</td>
+<td>保单发行</td>
+<td style="text-align: center;">1 个</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong>：10 个合约全部部署成功，关联关系全部配置正确，预置数据全部写入。</p>
+<hr />
+<h2>四、功能测试</h2>
+<h3>4.1 资产登记层 — AssetRegistry.sol（4.2.1）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">A1</td>
+<td>登记房地产资产</td>
+<td><code>registerAsset(name, RealEstate, value, spv, token, hash)</code></td>
+<td>返回 assetId，资产写入链上</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A2</td>
+<td>登记股权资产</td>
+<td><code>registerAsset(..., Equity, ...)</code></td>
+<td>返回 assetId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A3</td>
+<td>登记债券资产</td>
+<td><code>registerAsset(..., Bond, ...)</code></td>
+<td>返回 assetId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A4</td>
+<td>登记大宗商品资产</td>
+<td><code>registerAsset(..., Commodity, ...)</code></td>
+<td>返回 assetId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A5</td>
+<td>SPV 隔离查询</td>
+<td><code>getSPVAssets(spvAddress)</code></td>
+<td>返回该 SPV 下全部资产 ID</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A6</td>
+<td>代币化数量更新</td>
+<td><code>updateTokenizedAmount(assetId, amount)</code></td>
+<td>tokenizedAmount 更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A7</td>
+<td>资产估值更新</td>
+<td><code>updateAssetValue(assetId, newValue)</code></td>
+<td>totalValue 更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A8</td>
+<td>资产停用</td>
+<td><code>deactivateAsset(assetId)</code></td>
+<td>isActive → false</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A9</td>
+<td>发布信息披露</td>
+<td><code>publishDisclosure(assetId, title, hash)</code></td>
+<td>创建披露记录</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A10</td>
+<td>信息披露查询</td>
+<td><code>getAssetDisclosures(assetId)</code></td>
+<td>返回披露数组</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">A11</td>
+<td>代币化率查询</td>
+<td><code>getTokenizationRate(assetId)</code></td>
+<td>返回百分比</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：11/11 通过，通过率 100%</p>
+<hr />
+<h3>4.2 合规引擎 — Compliance.sol（4.2.2）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">C1</td>
+<td>KYC 单地址认证</td>
+<td><code>verifyInvestor(addr, name, kycId, accredited, maxInv, validity)</code></td>
+<td>认证成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C2</td>
+<td>KYC 批量认证</td>
+<td><code>batchVerifyInvestors(addrs[], names[], kycIds[], ...)</code></td>
+<td>批量成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C3</td>
+<td>撤销认证</td>
+<td><code>revokeInvestor(addr, reason)</code></td>
+<td>认证失效</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C4</td>
+<td>认证状态查询</td>
+<td><code>isVerified(addr)</code></td>
+<td>返回 true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C5</td>
+<td>合规转账检查（通过）</td>
+<td><code>checkTransfer(whitelistedFrom, whitelistedTo, amount)</code></td>
+<td>返回 (true, "")</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C6</td>
+<td>未认证转账（拒绝）</td>
+<td>未认证地址调用 checkTransfer</td>
+<td>返回 (false, reason)</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C7</td>
+<td>黑名单添加</td>
+<td><code>updateBlacklist(addr, true)</code></td>
+<td>地址进入黑名单</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C8</td>
+<td>批量黑名单</td>
+<td><code>batchUpdateBlacklist(addrs[], statuses[])</code></td>
+<td>批量更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C9</td>
+<td>黑名单转账（拒绝）</td>
+<td>黑名单地址 checkTransfer</td>
+<td>返回 (false, ...)</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C10</td>
+<td>发行限制检查</td>
+<td><code>checkIssuance(supply, count, mintAmount)</code></td>
+<td>合规判断正确</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C11</td>
+<td>单人投资限制</td>
+<td><code>checkInvestmentLimit(investor, current, new)</code></td>
+<td>超额拒绝</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C12</td>
+<td>AML 阈值设置</td>
+<td><code>setAMLThreshold(threshold)</code></td>
+<td>阈值更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C13</td>
+<td>风险等级设置</td>
+<td><code>setAMLRiskLevel(addr, level)</code> level ∈ {0,1,2,3}</td>
+<td>等级更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C14</td>
+<td>AML 标记清除</td>
+<td><code>clearAMLFlag(addr)</code></td>
+<td>amlFlagged → false</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C15</td>
+<td>AML 信息查询</td>
+<td><code>getAMLInfo(addr)</code></td>
+<td>返回 (volume, flagged, riskLevel)</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">C16</td>
+<td>发行限制设置</td>
+<td><code>setIssuanceLimit(...)</code></td>
+<td>限制参数更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：16/16 通过，通过率 100%</p>
+<hr />
+<h3>4.3 资产代币 — RWAToken.sol（4.1 / 4.2.1）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">T1</td>
+<td>铸造代币</td>
+<td><code>mint(addr, amount)</code></td>
+<td>余额增加，totalSupply 同步</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T2</td>
+<td>批量铸造</td>
+<td><code>batchMint(addrs[], amounts[])</code></td>
+<td>批量成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T3</td>
+<td>销毁代币</td>
+<td><code>burn(amount)</code></td>
+<td>余额减少</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T4</td>
+<td>白名单添加</td>
+<td><code>updateWhitelist(addr, true)</code></td>
+<td>whitelisted = true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T5</td>
+<td>批量白名单</td>
+<td><code>batchUpdateWhitelist(addrs[], statuses[])</code></td>
+<td>批量更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T6</td>
+<td>白名单转账</td>
+<td><code>transfer(whitelistedAddr, amount)</code></td>
+<td>转账成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T7</td>
+<td>非白名单转账（拒绝）</td>
+<td><code>transfer(nonWhitelistedAddr, amount)</code></td>
+<td>revert "not whitelisted"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T8</td>
+<td>暂停合约</td>
+<td><code>pause()</code></td>
+<td>paused = true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T9</td>
+<td>暂停后转账（拒绝）</td>
+<td>paused 时 transfer</td>
+<td>revert "contract is paused"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T10</td>
+<td>恢复合约</td>
+<td><code>unpause()</code></td>
+<td>paused = false</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T11</td>
+<td>代币价格查询</td>
+<td><code>getTokenPrice()</code></td>
+<td>= assetValue / totalSupply</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T12</td>
+<td>代币信息查询</td>
+<td><code>getTokenInfo()</code></td>
+<td>返回 7 个字段</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T13</td>
+<td>资产估值更新</td>
+<td><code>updateAssetValue(newValue)</code></td>
+<td>assetValue 更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">T14</td>
+<td>合规检查开关</td>
+<td><code>toggleComplianceCheck(true)</code> / <code>toggleComplianceCheck(false)</code></td>
+<td>开关切换</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：14/14 通过，通过率 100%</p>
+<hr />
+<h3>4.4 交易市场 — Marketplace.sol（4.2.3）</h3>
+<h4>4.4.1 订单簿交易</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">M1</td>
+<td>创建卖单</td>
+<td><code>createSellOrder(token, amount, price)</code></td>
+<td>返回 orderId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M2</td>
+<td>部分购买</td>
+<td><code>buyTokens(orderId, partialAmount)</code></td>
+<td>剩余数量减少</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M3</td>
+<td>全额购买</td>
+<td><code>buyAllTokens(orderId)</code></td>
+<td>订单成交，active = false</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M4</td>
+<td>取消订单</td>
+<td><code>cancelSellOrder(orderId)</code></td>
+<td>active = false</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M5</td>
+<td>手续费计算</td>
+<td><code>getOrderTotal(orderId, amount)</code></td>
+<td>0.25% 手续费</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M6</td>
+<td>超额支付退款</td>
+<td>发送超过总价的 ETH</td>
+<td>自动退还多余 ETH</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M7</td>
+<td>活跃订单查询</td>
+<td><code>getActiveOrders()</code></td>
+<td>仅返回 active 订单</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M8</td>
+<td>市场统计</td>
+<td><code>getMarketStats()</code></td>
+<td>返回统计信息</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M9</td>
+<td>余额不足（拒绝）</td>
+<td>ETH 不足时购买</td>
+<td>revert</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">M10</td>
+<td>非活跃订单（拒绝）</td>
+<td>购买已取消订单</td>
+<td>revert "not active"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<h4>4.4.2 做市商系统</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">MM1</td>
+<td>注册做市商</td>
+<td><code>registerMarketMaker(addr)</code></td>
+<td>注册成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">MM2</td>
+<td>更新双向报价</td>
+<td><code>updateQuote(token, bid, ask, bidAmt, askAmt)</code></td>
+<td>报价生效</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">MM3</td>
+<td>从做市商买入</td>
+<td><code>buyFromMaker(maker, token, amount)</code></td>
+<td>以 ask 价成交</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">MM4</td>
+<td>卖给做市商</td>
+<td><code>sellToMaker(maker, token, amount)</code></td>
+<td>以 bid 价成交</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">MM5</td>
+<td>获取做市商列表</td>
+<td><code>getMarketMakers()</code></td>
+<td>返回地址数组</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<h4>4.4.3 OTC 场外交易</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">OT1</td>
+<td>发起 OTC</td>
+<td><code>proposeOTC(partyB, token, amount, price)</code></td>
+<td>创建，状态 Pending</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">OT2</td>
+<td>接受 OTC</td>
+<td><code>acceptOTC(tradeId)</code></td>
+<td>状态 → Accepted</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">OT3</td>
+<td>结算 OTC</td>
+<td><code>settleOTC(tradeId)</code></td>
+<td>状态 → Settled，资金交割</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">OT4</td>
+<td>取消 OTC</td>
+<td><code>cancelOTC(tradeId)</code></td>
+<td>状态 → Cancelled</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">OT5</td>
+<td>OTC 完整流程</td>
+<td>Pending → Accepted → Settled</td>
+<td>四状态正常流转</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：20/20 通过，通过率 100%</p>
+<hr />
+<h3>4.5 荷兰式拍卖 — DutchAuction.sol（4.2.3）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">DA1</td>
+<td>创建拍卖</td>
+<td><code>createAuction(token, amount, startPrice, reservePrice, dec, interval, dur)</code></td>
+<td>返回 auctionId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">DA2</td>
+<td>价格递减</td>
+<td><code>getCurrentPrice(auctionId)</code></td>
+<td>价格随时间降低</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">DA3</td>
+<td>保留价保护</td>
+<td>价格降至保留价后</td>
+<td>不再下降，维持保留价</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">DA4</td>
+<td>竞拍成交</td>
+<td><code>bid(auctionId)</code></td>
+<td>以当前价成交，代币转移</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">DA5</td>
+<td>取消拍卖</td>
+<td><code>cancelAuction(auctionId)</code></td>
+<td>代币退回卖家</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">DA6</td>
+<td>拍卖统计</td>
+<td><code>getAuctionStats()</code></td>
+<td>返回 (count, settled, volume)</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：6/6 通过，通过率 100%</p>
+<hr />
+<h3>4.6 收益分配 — RevenueDistributor.sol（4.3.3）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">R1</td>
+<td>存入租金收益</td>
+<td><code>depositRevenue("租金")</code> with ETH</td>
+<td>合约余额增加</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R2</td>
+<td>存入股息收益</td>
+<td><code>depositRevenue("股息")</code> with ETH</td>
+<td>合约余额增加</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R3</td>
+<td>存入利息收益</td>
+<td><code>depositRevenue("利息")</code> with ETH</td>
+<td>合约余额增加</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R4</td>
+<td>创建分配方案</td>
+<td><code>createDistribution(total, type, investors[], amounts[])</code></td>
+<td>返回 distributionId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R5</td>
+<td>按持仓分配</td>
+<td><code>distributeByHolding(type, holders[], balances[])</code> with ETH</td>
+<td>按比例分配成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R6</td>
+<td>领取收益</td>
+<td><code>claim(distributionId)</code></td>
+<td>金额转入投资者账户</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R7</td>
+<td>批量领取</td>
+<td><code>batchClaim(distIds[])</code></td>
+<td>批量领取成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R8</td>
+<td>重复领取（拒绝）</td>
+<td>再次 claim 同一分配</td>
+<td>revert "already claimed"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R9</td>
+<td>终结分配</td>
+<td><code>finalizeDistribution(distId)</code></td>
+<td>未领取金额退回</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R10</td>
+<td>可领取查询</td>
+<td><code>getClaimableDistributions(investor)</code></td>
+<td>返回未领取 ID 列表</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R11</td>
+<td>系统统计</td>
+<td><code>getSystemStats()</code></td>
+<td>返回 (count, dist, claimed, bal)</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R12</td>
+<td>开启再投资</td>
+<td><code>toggleAutoReinvest(true)</code></td>
+<td>reinvestEnabled = true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">R13</td>
+<td>领取并再投资</td>
+<td><code>claimWithReinvest(distId)</code></td>
+<td>收益购买代币，余额增加</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：13/13 通过，通过率 100%</p>
+<hr />
+<h3>4.7 法律等效 — LegalEnforcement.sol（4.3.1）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">L1</td>
+<td>编码条款</td>
+<td><code>encodeClause(assetId, title, hash, code)</code></td>
+<td>返回 clauseId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L2</td>
+<td>废止条款</td>
+<td><code>deactivateClause(clauseId)</code></td>
+<td>isActive → false</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L3</td>
+<td>发起争议</td>
+<td><code>fileDispute(assetId, defendant, reason)</code></td>
+<td>创建，状态 Pending</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L4</td>
+<td>仲裁裁决</td>
+<td><code>resolveDispute(disputeId, favored, verdict)</code></td>
+<td>状态 → Resolved</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L5</td>
+<td>取消争议</td>
+<td><code>cancelDispute(disputeId)</code></td>
+<td>状态 → Cancelled</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L6</td>
+<td>注册法律事件</td>
+<td><code>registerLegalEvent(assetId, type, condition)</code></td>
+<td>创建事件</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L7</td>
+<td>触发法律事件</td>
+<td><code>triggerLegalEvent(eventId)</code></td>
+<td>triggered = true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L8</td>
+<td>执行法律事件</td>
+<td><code>executeLegalEvent(eventId, hash)</code></td>
+<td>executed = true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L9</td>
+<td>生成监管报告</td>
+<td><code>generateReport(assetId, type, hash)</code></td>
+<td>创建报告</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L10</td>
+<td>验证监管报告</td>
+<td><code>verifyReport(reportId)</code></td>
+<td>verified = true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">L11</td>
+<td>系统统计</td>
+<td><code>getSystemStats()</code></td>
+<td>返回 5 项统计</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：11/11 通过，通过率 100%</p>
+<hr />
+<h3>4.8 动态估值 — Valuation.sol（4.3.2）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">V1</td>
+<td>DCF 现金流折现</td>
+<td><code>valuationByDCF(assetId, cf[], discountRate, hash)</code></td>
+<td>返回净现值</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">V2</td>
+<td>可比公司法</td>
+<td><code>valuationByComparable(assetId, value, adjRate, hash)</code></td>
+<td>返回调整值</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">V3</td>
+<td>成本法</td>
+<td><code>valuationByCost(assetId, cost, depRate, hash)</code></td>
+<td>返回扣除折旧值</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">V4</td>
+<td>市场法</td>
+<td><code>valuationByMarket(assetId, price, factor, hash)</code></td>
+<td>返回市场调整值</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">V5</td>
+<td>加权综合估值</td>
+<td><code>computeCompositeValue(assetId, ids[], weights[])</code></td>
+<td>返回加权平均</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">V6</td>
+<td>估值记录查询</td>
+<td><code>getAssetValuations(assetId)</code></td>
+<td>返回 ID 数组</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">V7</td>
+<td>最新综合查询</td>
+<td><code>getLatestCompositeValue(assetId)</code></td>
+<td>返回最新值</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">V8</td>
+<td>估值验证</td>
+<td><code>verifyValuation(valuationId)</code></td>
+<td>verified = true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：8/8 通过，通过率 100%</p>
+<hr />
+<h3>4.9 风险管理 — RiskManager.sol（4.4）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">RK1</td>
+<td>创建抵押仓位</td>
+<td><code>createPosition(collToken, borToken, collAmt, borAmt)</code></td>
+<td>返回 positionId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK2</td>
+<td>追加抵押品</td>
+<td><code>addCollateral(positionId, amount)</code></td>
+<td>抵押率提升</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK3</td>
+<td>归还借款</td>
+<td><code>repayDebt(positionId, amount)</code></td>
+<td>borrowAmount 减少</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK4</td>
+<td>平仓</td>
+<td><code>closePosition(positionId)</code></td>
+<td>抵押品归还，isActive = false</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK5</td>
+<td>抵押率查询</td>
+<td><code>getCollateralRatio(positionId)</code></td>
+<td>返回 = collateral/borrow</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK6</td>
+<td>健康检查</td>
+<td><code>isPositionHealthy(positionId)</code></td>
+<td>position 健康返回 true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK7</td>
+<td>可清算检查</td>
+<td><code>isLiquidatable(positionId)</code></td>
+<td>低于清算阈值返回 true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK8</td>
+<td>执行清算</td>
+<td><code>liquidate(positionId)</code></td>
+<td>抵押品按罚金处置</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK9</td>
+<td>保险绑定清算</td>
+<td><code>liquidateWithInsurance(positionId)</code></td>
+<td>清算 + 理赔触发</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK10</td>
+<td>不健康检测</td>
+<td><code>detectUnhealthyPositions()</code></td>
+<td>返回不健康仓位 ID</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK11</td>
+<td>系统风险统计</td>
+<td><code>getSystemRiskStats()</code></td>
+<td>返回统计信息</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK12</td>
+<td>风险参数更新</td>
+<td><code>updateRiskParams(minRatio, threshold, penalty, leverage)</code></td>
+<td>参数全局更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK13</td>
+<td>保险绑定</td>
+<td><code>bindInsurance(positionId, policyId)</code></td>
+<td>绑定成功</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">RK14</td>
+<td>安全阈值设置</td>
+<td><code>setSafetyThreshold(threshold)</code></td>
+<td>safetyThreshold 更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：14/14 通过，通过率 100%</p>
+<hr />
+<h3>4.10 压力测试 — RiskManager.sol（4.4）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ST1</td>
+<td>极端下跌 30%</td>
+<td><code>runStressTest("极端下跌30%", 3000, hash)</code></td>
+<td>返回受影响仓位和清算比例</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">ST2</td>
+<td>中度下跌 15%</td>
+<td><code>runStressTest("中度下跌15%", 1500, hash)</code></td>
+<td>返回受影响仓位和清算比例</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">ST3</td>
+<td>场景记录查询</td>
+<td><code>getStressScenario(scenarioId)</code></td>
+<td>返回完整场景信息</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：3/3 通过，通过率 100%</p>
+<hr />
+<h3>4.11 保险集成 — Insurance.sol（4.4）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">IN1</td>
+<td>发行保单</td>
+<td><code>issuePolicy(assetId, insured, coverage, premium, dur, hash)</code></td>
+<td>返回 policyId</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">IN2</td>
+<td>退保</td>
+<td><code>cancelPolicy(policyId)</code></td>
+<td>状态 → Cancelled</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">IN3</td>
+<td>发起理赔</td>
+<td><code>fileClaim(policyId, amount, reason)</code></td>
+<td>创建理赔，状态 Pending</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">IN4</td>
+<td>批准理赔并赔付</td>
+<td><code>approveClaim(claimId)</code> with ETH</td>
+<td>金额转入 + 状态 → Paid</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">IN5</td>
+<td>拒绝理赔</td>
+<td><code>rejectClaim(claimId)</code></td>
+<td>状态 → Rejected</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">IN6</td>
+<td>保单有效性检查</td>
+<td><code>isPolicyActive(policyId)</code></td>
+<td>有效返回 true</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">IN7</td>
+<td>保险统计</td>
+<td><code>getInsuranceStats()</code></td>
+<td>返回 5 项统计</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结果</strong>：7/7 通过，通过率 100%</p>
+<hr />
+<h2>五、前端测试</h2>
+<h3>5.1 初始化与连接</h3>
+<table>
+<thead>
+<tr>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>页面加载</td>
+<td>访问 http://localhost:8080</td>
+<td>自动连接 Hardhat 网络，显示主页面</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>钱包初始化</td>
+<td>自动加载私钥</td>
+<td>创建 ethers.Wallet 签名实例</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>合约初始化</td>
+<td>10 个合约实例化</td>
+<td>全部 ethers.Contract 就绪</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>种子数据</td>
+<td>自动 seedDemoData()</td>
+<td>各模块检测并创建演示数据</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>数据刷新</td>
+<td>17 个 refresh 函数并行</td>
+<td>页面数据完整填充</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 UI 交互</h3>
+<table>
+<thead>
+<tr>
+<th>测试用例</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>侧边导航</td>
+<td>点击各 nav-item</td>
+<td>view 切换，标题更新</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>子导航切换</td>
+<td>交易市场内点击选项卡</td>
+<td>订单簿/做市商/OTC 切换</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>移动菜单</td>
+<td>点击 ☰ 按钮</td>
+<td>侧边栏展开/收起</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>响应式布局</td>
+<td>调整窗口大小</td>
+<td>断点自适应（768px/480px）</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>Toast 通知</td>
+<td>触发操作</td>
+<td>横幅提示，5 秒消失</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>Modal 弹窗</td>
+<td>确认/输入操作触发</td>
+<td>弹窗弹出并正常关闭</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<h3>5.3 各页面功能覆盖</h3>
+<table>
+<thead>
+<tr>
+<th>页面</th>
+<th>读操作</th>
+<th>写操作</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总览</td>
+<td>资产信息、账户状态、代币信息</td>
+<td>铸造代币、白名单管理、KYC 验证</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>交易市场-订单簿</td>
+<td>订单列表</td>
+<td>创建卖单、购买、取消</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>交易市场-做市商</td>
+<td>做市商列表、报价</td>
+<td>注册做市商、更新报价、买入/卖出</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>交易市场-OTC</td>
+<td>OTC 列表</td>
+<td>发起/接受/结算/取消 OTC</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>收益分配</td>
+<td>分配记录、再投资统计</td>
+<td>存入收益、创建分配、领取、再投资</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>资产登记</td>
+<td>SPV 资产列表、信息披露</td>
+<td>—</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>动态估值</td>
+<td>综合估值、四种方法记录</td>
+<td>—</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>荷兰拍卖</td>
+<td>拍卖列表、实时价格</td>
+<td>竞价 bid()</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>保险集成</td>
+<td>保单列表</td>
+<td>发起理赔</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>法律等效</td>
+<td>条款/争议/事件/报告列表</td>
+<td>—</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>风险管理</td>
+<td>仓位列表、抵押率、测试记录</td>
+<td>创建仓位、追加、还款、清算、压力测试、绑保险、调参数</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td>AML 合规</td>
+<td>投资者状态、AML 信息、限制参数</td>
+<td>设阈值、设风险等级、黑名单、发行限制</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>六、安全测试</h2>
+<h3>6.1 权限控制</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试场景</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">S1</td>
+<td>非管理员铸造</td>
+<td>普通账户调用 <code>mint()</code></td>
+<td>revert "only admin"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S2</td>
+<td>非管理员 KYC</td>
+<td>普通账户调用 <code>verifyInvestor()</code></td>
+<td>revert "only admin"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S3</td>
+<td>非仲裁员裁决</td>
+<td>普通账户调用 <code>resolveDispute()</code></td>
+<td>revert "only arbitrator"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S4</td>
+<td>非管理员发保单</td>
+<td>普通账户调用 <code>issuePolicy()</code></td>
+<td>revert "only admin"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S5</td>
+<td>非管理员估值</td>
+<td>普通账户调用 <code>valuationByDCF()</code></td>
+<td>revert "only admin"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 输入校验与防护</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">编号</th>
+<th>测试场景</th>
+<th>操作</th>
+<th>预期结果</th>
+<th style="text-align: center;">状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">S6</td>
+<td>非白名单转账</td>
+<td>未认证地址 transfer</td>
+<td>revert "not whitelisted"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S7</td>
+<td>黑名单转账</td>
+<td>黑名单地址 transfer</td>
+<td>revert</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S8</td>
+<td>暂停状态交易</td>
+<td>paused 时 transfer / buyTokens</td>
+<td>revert "contract is paused"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S9</td>
+<td>余额不足购买</td>
+<td>ETH 不足时 buyTokens / bid</td>
+<td>revert "insufficient"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S10</td>
+<td>重复领取收益</td>
+<td>同一分配两次 claim</td>
+<td>revert "already claimed"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S11</td>
+<td>非活跃订单购买</td>
+<td>购买已取消订单</td>
+<td>revert "not active"</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S12</td>
+<td>重入攻击防护</td>
+<td>合约二次调用资金函数</td>
+<td>nonReentrant 拦截</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S13</td>
+<td>整数溢出防护</td>
+<td>超量铸造</td>
+<td>Solidity 0.8.28 内置 revert</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S14</td>
+<td>路径穿越防护</td>
+<td>访问 /../etc/passwd</td>
+<td>server.js 返回 403</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td style="text-align: center;">S15</td>
+<td>超出发行限制铸造</td>
+<td>超过 maxSupply mint</td>
+<td>checkIssuance 拒绝</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>安全测试结果</strong>：15/15 通过，通过率 100%</p>
+<hr />
+<h2>七、测试结论</h2>
+<h3>7.1 统计汇总</h3>
+<table>
+<thead>
+<tr>
+<th>测试类别</th>
+<th style="text-align: center;">测试项数</th>
+<th style="text-align: center;">通过</th>
+<th style="text-align: center;">失败</th>
+<th style="text-align: center;">通过率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编译测试</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>部署测试</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>资产登记层</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>合规引擎</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>资产代币</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>交易市场</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>荷兰式拍卖</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>收益分配</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>法律等效</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>动态估值</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>风险管理</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>压力测试</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>保险集成</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>前端功能</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td>安全测试</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">100%</td>
+</tr>
+<tr>
+<td><strong>总计</strong></td>
+<td style="text-align: center;"><strong>175</strong></td>
+<td style="text-align: center;"><strong>175</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>7.2 结论</h3>
+<p>经全面测试：</p>
+<ol>
+<li>
+<p><strong>智能合约层</strong>：10 个合约全部编译通过（零警告），部署成功，关联关系配置正确。125 个 public/external 函数功能全部验证通过。</p>
+</li>
+<li>
+<p><strong>前端层</strong>：10 个子页面交互正常，侧边导航、子导航、响应式布局、弹窗、Toast 通知全部正常。内置私钥签名机制稳定可靠。</p>
+</li>
+<li>
+<p><strong>安全层</strong>：访问控制、重入防护、暂停控制、白名单校验、合规检查、黑名单、路径穿越防护全部有效。</p>
+</li>
+<li>
+<p><strong>设计要求覆盖</strong>：完整覆盖《项目设计要求文档》4.1-4.4 全部模块。</p>
+</li>
+</ol>
+<p><strong>系统运行稳定，所有功能正常，满足设计要求。</strong></p>
+<hr />
+<h2>八、测试说明</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测试环境</td>
+<td>本地区块链 Hardhat Network (Chain ID: 31337)</td>
+</tr>
+<tr>
+<td>测试方法</td>
+<td>手动功能测试 + 脚本自动化验证</td>
+</tr>
+<tr>
+<td>自动化测试框架</td>
+<td>未使用 Hardhat Test 套件（使用手动 + 脚本方式）</td>
+</tr>
+<tr>
+<td>预言机</td>
+<td>估值为管理员手动触发，不含 Chainlink 实时价格</td>
+</tr>
+<tr>
+<td>清算触发</td>
+<td>由任何人手动触发（非自动 keeper bot）</td>
+</tr>
+<tr>
+<td>前端签名</td>
+<td>使用 Hardhat 内置私钥签名，免 MetaMask</td>
+</tr>
+<tr>
+<td>生产迁移</td>
+<td>部署到测试网/主网时需替换为 MetaMask 等标准钱包方案</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p>📅 测试完成日期：2026-06-30 | 版本 V3.0</p>
+</blockquote>
+
+<div class="footer">
+  © 2026 现实世界资产代币化系统（RWA）— 测试报告
+</div>
+
+</div>
+</body>
+</html>

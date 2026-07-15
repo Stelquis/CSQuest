@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RWA · 现实世界资产代币化系统</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+</head>
+<body>
+<!-- 侧边导航 -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <span class="logo-icon">◆</span>
+        <span class="logo-text">RWA</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a class="nav-item active" data-target="overview"><span class="nav-ico">⊞</span><span>总览</span></a>
+        <a class="nav-item" data-target="market"><span class="nav-ico">↯</span><span>交易市场</span></a>
+        <a class="nav-item" data-target="revenue"><span class="nav-ico">$</span><span>收益分配</span></a>
+        <a class="nav-item" data-target="assets"><span class="nav-ico">⬡</span><span>资产登记</span></a>
+        <a class="nav-item" data-target="valuation"><span class="nav-ico">∿</span><span>动态估值</span></a>
+        <a class="nav-item" data-target="auction"><span class="nav-ico">ⓘ</span><span>荷兰拍卖</span></a>
+        <a class="nav-item" data-target="insurance"><span class="nav-ico">◊</span><span>保险集成</span></a>
+        <a class="nav-item" data-target="legal"><span class="nav-ico">§</span><span>法律等效</span></a>
+        <a class="nav-item" data-target="risk"><span class="nav-ico">⚠</span><span>风险管理</span></a>
+        <a class="nav-item" data-target="aml"><span class="nav-ico">⛔</span><span>AML 合规</span></a>
+    </nav>
+    <div class="sidebar-footer">
+        <span>v1.0.0 · 10 Contracts</span>
+    </div>
+</aside>
+
+<!-- 主区域 -->
+<div class="main-wrap">
+    <!-- 顶栏 -->
+    <header class="topbar">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="topbar-title" id="pageTitle">总览</div>
+        <div class="topbar-right">
+            <span class="net-badge"><span class="dot"></span> Localhost 31337</span>
+            <span class="wallet-addr" id="walletAddress">连接中...</span>
+            <button id="connectBtn" class="btn btn-primary">连接中</button>
+        </div>
+    </header>
+
+    <!-- 状态条 -->
+    <div id="statusBar" class="toast hidden"></div>
+
+    <!-- 内容区 -->
+    <main class="content">
+
+        <!-- ===== 总览 ===== -->
+        <section class="view active" id="overview">
+            <div class="stat-row">
+                <div class="stat-card">
+                    <div class="stat-label">资产估值</div>
+                    <div class="stat-value" id="ovAssetValue">--</div>
+                    <div class="stat-sub">USD</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">代币单价</div>
+                    <div class="stat-value" id="ovTokenPrice">--</div>
+                    <div class="stat-sub">USD</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">总供应量</div>
+                    <div class="stat-value" id="ovTotalSupply">--</div>
+                    <div class="stat-sub">RWA</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">白名单地址</div>
+                    <div class="stat-value" id="ovWhitelist">--</div>
+                    <div class="stat-sub">人</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel">
+                    <div class="panel-head"><h3>资产信息</h3><button class="btn-mini" onclick="refreshAssetInfo()">↻</button></div>
+                    <div class="kv-grid">
+                        <div class="kv"><span class="k">代币名称</span><span class="v" id="tokenName">--</span></div>
+                        <div class="kv"><span class="k">代币符号</span><span class="v" id="tokenSymbol">--</span></div>
+                        <div class="kv"><span class="k">资产类型</span><span class="v" id="assetType">--</span></div>
+                        <div class="kv"><span class="k">资产估值</span><span class="v" id="assetValue">--</span></div>
+                        <div class="kv"><span class="k">代币单价</span><span class="v" id="tokenPrice">--</span></div>
+                        <div class="kv"><span class="k">总供应量</span><span class="v" id="totalSupply">--</span></div>
+                        <div class="kv"><span class="k">白名单数</span><span class="v" id="whitelistedCount">--</span></div>
+                        <div class="kv"><span class="k">SPV 地址</span><span class="v mono" id="spvAddress">--</span></div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>我的账户</h3><button class="btn-mini" onclick="refreshAccountInfo()">↻</button></div>
+                    <div class="kv-grid">
+                        <div class="kv"><span class="k">代币余额</span><span class="v accent" id="myBalance">0</span></div>
+                        <div class="kv"><span class="k">白名单</span><span class="v" id="whitelistStatus">--</span></div>
+                        <div class="kv"><span class="k">KYC 状态</span><span class="v" id="kycStatus">--</span></div>
+                        <div class="kv"><span class="k">合格投资者</span><span class="v" id="accreditedStatus">--</span></div>
+                        <div class="kv"><span class="k">待领收益</span><span class="v accent" id="pendingClaims">0</span></div>
+                        <div class="kv"><span class="k">已领收益</span><span class="v" id="totalClaimed">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 铸造 / 白名单 / KYC 快速操作 -->
+            <div class="panel">
+                <div class="panel-head"><h3>系统操作</h3></div>
+                <div class="grid-3">
+                    <div class="form-stack">
+                        <label class="mini-label">铸造代币</label>
+                        <input type="text" id="mintTo" placeholder="接收地址" class="inp">
+                        <input type="number" id="mintAmount" placeholder="数量" step="0.01" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="mintTokens()">铸造</button>
+                    </div>
+                    <div class="form-stack">
+                        <label class="mini-label">白名单管理</label>
+                        <input type="text" id="whitelistAddr" placeholder="地址" class="inp">
+                        <div class="btn-row">
+                            <button class="btn btn-primary btn-sm" onclick="addToWhitelist()">添加</button>
+                            <button class="btn btn-danger btn-sm" onclick="removeFromWhitelist()">移除</button>
+                        </div>
+                    </div>
+                    <div class="form-stack">
+                        <label class="mini-label">KYC 投资者验证</label>
+                        <input type="text" id="kycAddr" placeholder="投资者地址" class="inp">
+                        <input type="text" id="kycName" placeholder="姓名" class="inp">
+                        <input type="text" id="kycId" placeholder="KYC 编号" class="inp">
+                        <input type="number" id="kycMaxInvestment" placeholder="最大投资额 (ETH)" step="0.01" class="inp">
+                        <label class="chk"><input type="checkbox" id="kycAccredited"> 合格投资者</label>
+                        <button class="btn btn-primary btn-w" onclick="verifyInvestor()">验证投资者</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 交易市场 ===== -->
+        <section class="view" id="market">
+            <!-- 子导航 -->
+            <div class="subnav" style="display:flex;gap:8px;margin-bottom:16px;">
+                <button class="btn btn-accent subnav-btn active" data-sub="market-orders">订单簿</button>
+                <button class="btn subnav-btn" data-sub="market-maker">做市商</button>
+                <button class="btn subnav-btn" data-sub="market-otc">OTC交易</button>
+            </div>
+            <!-- 订单簿子页面 -->
+            <div class="subview active" id="market-orders">
+                <div class="stat-row">
+                    <div class="stat-card"><div class="stat-label">总订单</div><div class="stat-value" id="marketOrderCount">0</div></div>
+                    <div class="stat-card"><div class="stat-label">手续费率</div><div class="stat-value" id="marketFeeRate">0.25%</div></div>
+                    <div class="stat-card"><div class="stat-label">累计交易量</div><div class="stat-value" id="marketTotalVolume">0</div></div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>挂卖单</h3></div>
+                    <div class="form-inline">
+                        <input type="number" id="sellAmount" placeholder="数量（代币）" class="inp">
+                        <input type="number" id="sellPrice" placeholder="单价（ETH）" step="0.001" class="inp">
+                        <button class="btn btn-primary" onclick="createSellOrder()">挂单</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>市场订单</h3><button class="btn-mini" onclick="refreshOrders()">↻</button></div>
+                    <div id="orderList" class="list-area"><p class="empty">暂无订单</p></div>
+                </div>
+            </div>
+            <!-- 做市商子页面 -->
+            <div class="subview" id="market-maker">
+                <div class="panel">
+                    <div class="panel-head"><h3>注册/更新做市商</h3></div>
+                    <div class="form-inline">
+                        <input type="text" id="makerAddr" placeholder="做市商地址" class="inp" style="width:300px">
+                        <button class="btn btn-primary" onclick="registerMarketMaker()">注册</button>
+                        <button class="btn btn-danger" onclick="removeMarketMaker()">移除</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>做市商报价</h3></div>
+                    <div class="form-grid">
+                        <input type="text" id="quoteMaker" placeholder="做市商地址" class="inp">
+                        <select id="quoteToken" class="inp">
+                            <option value="rwa">RWA 代币</option>
+                        </select>
+                        <input type="number" id="quoteBidPrice" placeholder="买入报价 (ETH)" step="0.001" class="inp">
+                        <input type="number" id="quoteAskPrice" placeholder="卖出报价 (ETH)" step="0.001" class="inp">
+                        <input type="number" id="quoteBidAmt" placeholder="买入量" class="inp">
+                        <input type="number" id="quoteAskAmt" placeholder="卖出量" class="inp">
+                    </div>
+                    <div class="form-inline">
+                        <button class="btn btn-primary" onclick="updateQuote()">更新报价</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>做市商列表 · 交易</h3><button class="btn-mini" onclick="refreshMakers()">↻</button></div>
+                    <div id="makerList" class="list-area"><p class="empty">暂无做市商</p></div>
+                </div>
+            </div>
+            <!-- OTC子页面 -->
+            <div class="subview" id="market-otc">
+                <div class="panel">
+                    <div class="panel-head"><h3>发起 OTC 交易</h3></div>
+                    <div class="form-stack">
+                        <input type="text" id="otcPartyB" placeholder="对手方地址" class="inp">
+                        <input type="number" id="otcAmount" placeholder="代币数量" class="inp">
+                        <input type="number" id="otcPrice" placeholder="单价 (ETH)" step="0.001" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="proposeOTC()">发起 OTC</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>OTC 交易列表 · 接受 · 结算 · 取消</h3><button class="btn-mini" onclick="refreshOTC()">↻</button></div>
+                    <div id="otcList" class="list-area"><p class="empty">暂无 OTC 交易</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 收益分配 ===== -->
+        <section class="view" id="revenue">
+            <div class="stat-row">
+                <div class="stat-card"><div class="stat-label">分配次数</div><div class="stat-value" id="distCount">0</div></div>
+                <div class="stat-card"><div class="stat-label">累计分配</div><div class="stat-value" id="distTotalDistributed">0</div></div>
+                <div class="stat-card"><div class="stat-label">累计领取</div><div class="stat-value" id="distTotalClaimed">0</div></div>
+            </div>
+            <div class="grid-2">
+                <div class="panel">
+                    <div class="panel-head"><h3>存入收益</h3></div>
+                    <div class="form-stack">
+                        <input type="text" id="revenueType" placeholder="收益类型（租金/股息/利息）" class="inp">
+                        <input type="number" id="revenueAmount" placeholder="金额 (ETH)" step="0.01" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="depositRevenue()">存入</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>创建分配方案</h3></div>
+                    <div class="form-stack">
+                        <input type="number" id="distAmount" placeholder="分配总额 (ETH)" step="0.01" class="inp">
+                        <input type="text" id="distType" placeholder="收益类型" class="inp">
+                        <input type="text" id="distInvestors" placeholder="投资者地址（逗号分隔）" class="inp">
+                        <input type="text" id="distAmounts" placeholder="分配金额（逗号分隔，ETH）" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="createDistribution()">创建分配</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-head"><h3>分配记录 · 领取收益</h3><button class="btn-mini" onclick="refreshDistributions()">↻</button></div>
+                <div id="distributionList" class="list-area"><p class="empty">暂无分配记录</p></div>
+            </div>
+            <!-- 自动再投资 -->
+            <div class="grid-2">
+                <div class="panel">
+                    <div class="panel-head"><h3>自动再投资</h3></div>
+                    <div class="form-stack">
+                        <div class="kv-grid">
+                            <div class="kv"><span class="k">再投资状态</span><span class="v accent" id="reinStatus">--</span></div>
+                            <div class="kv"><span class="k">再投资总额</span><span class="v" id="reinTotal">0</span></div>
+                            <div class="kv"><span class="k">已领取总额</span><span class="v" id="reinClaimed">0</span></div>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-primary" onclick="toggleReinvest(true)">开启再投资</button>
+                            <button class="btn btn-danger" onclick="toggleReinvest(false)">关闭再投资</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>再投资领取</h3></div>
+                    <div class="form-stack">
+                        <input type="number" id="reinDistId" placeholder="分配ID" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="claimWithReinvest()">领取并再投资</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 资产登记 ===== -->
+        <section class="view" id="assets">
+            <div class="panel">
+                <div class="panel-head"><h3>资产登记 · SPV风险隔离</h3><button class="btn-mini" onclick="refreshAssets()">↻</button></div>
+                <div id="assetList" class="list-area"><p class="empty">暂无资产</p></div>
+            </div>
+        </section>
+
+        <!-- ===== 动态估值 ===== -->
+        <section class="view" id="valuation">
+            <div class="stat-row">
+                <div class="stat-card wide"><div class="stat-label">资产 #0 综合估值</div><div class="stat-value" id="compositeValue">--</div><div class="stat-sub">USD</div></div>
+            </div>
+            <div class="panel">
+                <div class="panel-head"><h3>估值记录 · DCF / 可比公司 / 成本法 / 市场法</h3><button class="btn-mini" onclick="refreshValuations()">↻</button></div>
+                <div id="valuationList" class="list-area"><p class="empty">暂无估值</p></div>
+            </div>
+        </section>
+
+        <!-- ===== 荷兰拍卖 ===== -->
+        <section class="view" id="auction">
+            <div class="stat-row">
+                <div class="stat-card wide"><div class="stat-label">拍卖统计</div><div class="stat-value" id="auctionStats">--</div></div>
+            </div>
+            <div class="panel">
+                <div class="panel-head"><h3>拍卖列表 · 竞价参与</h3><button class="btn-mini" onclick="refreshAuctions()">↻</button></div>
+                <div id="auctionList" class="list-area"><p class="empty">暂无拍卖</p></div>
+            </div>
+        </section>
+
+        <!-- ===== 保险集成 ===== -->
+        <section class="view" id="insurance">
+            <div class="stat-row stat-row-4">
+                <div class="stat-card"><div class="stat-label">保单数</div><div class="stat-value" id="insPolicies">--</div></div>
+                <div class="stat-card"><div class="stat-label">理赔数</div><div class="stat-value" id="insClaims">--</div></div>
+                <div class="stat-card"><div class="stat-label">总保额</div><div class="stat-value" id="insCoverage">--</div></div>
+                <div class="stat-card"><div class="stat-label">已赔付</div><div class="stat-value" id="insPaid">--</div></div>
+            </div>
+            <div class="panel">
+                <div class="panel-head"><h3>全部保单 · 发起理赔</h3><button class="btn-mini" onclick="refreshInsurance()">↻</button></div>
+                <div id="insuranceList" class="list-area"><p class="empty">暂无保单</p></div>
+            </div>
+        </section>
+
+        <!-- ===== 法律等效 ===== -->
+        <section class="view" id="legal">
+            <div class="stat-row stat-row-4">
+                <div class="stat-card"><div class="stat-label">法律条款</div><div class="stat-value" id="legalClauses">--</div></div>
+                <div class="stat-card"><div class="stat-label">争议 (待处理)</div><div class="stat-value" id="legalDisputes">--</div></div>
+                <div class="stat-card"><div class="stat-label">法律事件</div><div class="stat-value" id="legalEvents">--</div></div>
+                <div class="stat-card"><div class="stat-label">监管报告</div><div class="stat-value" id="legalReports">--</div></div>
+            </div>
+            <div class="panel">
+                <div class="panel-head"><h3>条款与争议列表</h3><button class="btn-mini" onclick="refreshLegal()">↻</button></div>
+                <div id="legalList" class="list-area"><p class="empty">条款编码 · 争议仲裁 · 法律事件触发 · 监管报告</p></div>
+            </div>
+        </section>
+
+        <!-- ===== 风险管理 ===== -->
+        <section class="view" id="risk">
+            <div class="stat-row stat-row-4">
+                <div class="stat-card"><div class="stat-label">系统抵押率</div><div class="stat-value" id="riskSysRatio">--</div></div>
+                <div class="stat-card"><div class="stat-label">总抵押价值</div><div class="stat-value" id="riskTotalColl">--</div></div>
+                <div class="stat-card"><div class="stat-label">总借入价值</div><div class="stat-value" id="riskTotalBor">--</div></div>
+                <div class="stat-card"><div class="stat-label">清算次数</div><div class="stat-value" id="riskLiqCount">--</div></div>
+            </div>
+            <!-- 仓位管理 -->
+            <div class="grid-2">
+                <div class="panel">
+                    <div class="panel-head"><h3>创建抵押仓位</h3></div>
+                    <div class="form-stack">
+                        <input type="text" id="riskCollToken" placeholder="抵押代币地址" class="inp">
+                        <input type="text" id="riskBorToken" placeholder="借入代币地址" class="inp">
+                        <input type="number" id="riskCollAmount" placeholder="抵押数量 (ETH)" step="0.01" class="inp">
+                        <input type="number" id="riskBorAmount" placeholder="借入数量 (ETH)" step="0.01" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="createPosition()">创建仓位</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>风险参数管理</h3></div>
+                    <div class="form-stack">
+                        <div class="kv-grid">
+                            <div class="kv"><span class="k">最低抵押率</span><span class="v" id="rpMinRatio">150%</span></div>
+                            <div class="kv"><span class="k">清算阈值</span><span class="v" id="rpLiqTh">120%</span></div>
+                            <div class="kv"><span class="k">清算罚金</span><span class="v" id="rpLiqPen">10%</span></div>
+                            <div class="kv"><span class="k">最大杠杆</span><span class="v" id="rpMaxLev">3x</span></div>
+                        </div>
+                        <button class="btn btn-primary btn-w" onclick="updateRiskParams()">更新参数</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 仓位列表 -->
+            <div class="panel">
+                <div class="panel-head"><h3>抵押仓位列表 · 清算 · 追加抵押 · 还款</h3><button class="btn-mini" onclick="refreshRisk()">↻</button></div>
+                <div id="riskPositionList" class="list-area"><p class="empty">暂无仓位</p></div>
+            </div>
+            <!-- 压力测试 -->
+            <div class="grid-2">
+                <div class="panel">
+                    <div class="panel-head"><h3>压力测试</h3></div>
+                    <div class="form-stack">
+                        <input type="text" id="stressName" placeholder="场景名称（如：极端下跌30%）" class="inp">
+                        <input type="number" id="stressDrop" placeholder="价格跌幅（基点，如3000=30%）" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="runStressTest()">执行压力测试</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>安全阈值</h3></div>
+                    <div class="form-stack">
+                        <input type="number" id="safetyThreshold" placeholder="安全抵押率阈值（如130=130%）" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="setSafetyThreshold()">设置阈值</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 压力测试记录 -->
+            <div class="panel">
+                <div class="panel-head"><h3>压力测试记录</h3><button class="btn-mini" onclick="refreshStressTests()">↻</button></div>
+                <div id="riskStressList" class="list-area"><p class="empty">暂无压力测试</p></div>
+            </div>
+            <!-- 保险绑定 -->
+            <div class="panel">
+                <div class="panel-head"><h3>仓位保险绑定</h3></div>
+                <div class="form-inline">
+                    <input type="number" id="insBindPosId" placeholder="仓位ID" class="inp" style="width:200px">
+                    <input type="number" id="insBindPolicyId" placeholder="保单ID" class="inp" style="width:200px">
+                    <button class="btn btn-primary" onclick="bindInsurance()">绑定保险</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== AML 合规 ===== -->
+        <section class="view" id="aml">
+            <div class="stat-row stat-row-4">
+                <div class="stat-card"><div class="stat-label">AML 阈值</div><div class="stat-value" id="amlThresholdVal">--</div></div>
+                <div class="stat-card"><div class="stat-label">标记账户数</div><div class="stat-value" id="amlFlaggedCnt">--</div></div>
+                <div class="stat-card"><div class="stat-label">黑名单数</div><div class="stat-value" id="amlBlackCnt">--</div></div>
+                <div class="stat-card"><div class="stat-label">发行限制</div><div class="stat-value" id="amlIssEnabled">--</div></div>
+            </div>
+            <!-- AML 阈值设置 -->
+            <div class="grid-2">
+                <div class="panel">
+                    <div class="panel-head"><h3>AML 大额交易阈值</h3></div>
+                    <div class="form-stack">
+                        <input type="number" id="amlThrInput" placeholder="累计交易额阈值 (ETH)" step="0.1" class="inp">
+                        <button class="btn btn-primary btn-w" onclick="setAMLThreshold()">设置阈值</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><h3>发行限制设置</h3></div>
+                    <div class="form-stack">
+                        <input type="number" id="issMaxSupply" placeholder="最大发行规模 (ETH)" step="0.01" class="inp">
+                        <input type="number" id="issMaxInvestors" placeholder="最大投资者数量" class="inp">
+                        <input type="number" id="issMinLockup" placeholder="最短锁定期 (秒)" class="inp">
+                        <input type="number" id="issMaxPerInv" placeholder="单人最大投资额 (ETH)" step="0.01" class="inp">
+                        <label class="chk"><input type="checkbox" id="issEnabled" checked> 启用发行限制</label>
+                        <button class="btn btn-primary btn-w" onclick="setIssuanceLimit()">保存发行限制</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 投资者 AML 状态列表 -->
+            <div class="panel">
+                <div class="panel-head"><h3>AML 监测 · 投资者合规状态</h3><button class="btn-mini" onclick="refreshAML()">↻</button></div>
+                <div id="amlInvestorList" class="list-area"><p class="empty">暂无 AML 数据</p></div>
+            </div>
+            <!-- 风险等级管理 -->
+            <div class="panel">
+                <div class="panel-head"><h3>AML 操作：风险等级 · 标记 · 检查</h3></div>
+                <div class="form-inline">
+                    <input type="text" id="amlAcct" placeholder="投资者地址" class="inp" style="width:300px">
+                    <select id="amlRiskLvl" class="inp" style="width:150px">
+                        <option value="0">正常 (0)</option>
+                        <option value="1">低风险 (1)</option>
+                        <option value="2">中风险 (2)</option>
+                        <option value="3">高风险 (3)</option>
+                    </select>
+                    <button class="btn btn-accent" onclick="setAMLRiskLevel()">设置风险等级</button>
+                    <button class="btn btn-primary btn-sm" onclick="clearAMLFlag()">清除标记</button>
+                    <button class="btn btn-danger btn-sm" onclick="updateBlacklist(true)">加入黑名单</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        RWA 资产代币化系统 v1.0.0 · 资产登记 · 合规发行 · 交易市场 · 收益分配 · 风险管控 · 保险估值 · 法律合规
+    </footer>
+
+    <!-- ===== 通用弹窗 ===== -->
+    <div class="modal-overlay" id="modalOverlay" style="display:none">
+        <div class="modal-card" id="modalCard">
+            <div class="modal-head" id="modalHead">
+                <span class="modal-icon" id="modalIcon">ℹ</span>
+                <span class="modal-title" id="modalTitle">提示</span>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-foot" id="modalFoot"></div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
