@@ -1,0 +1,41 @@
+{
+  "author": "罗念笙",
+  "content": "计算机系统概述\n计算机系统简介\n计算机系统\n计算机系统由\n硬件\n和\n软件\n两大部分组成\n计算机软硬件机器\n微程序机器M0、实际机器M1 归属于硬件 ；虚拟机M2、M3、M4归属于软件\n \n计算机体系结构和计算机组成区别\n计算机体系结构：程序员所见到的计算机系统的属性概念性的结构与功能特性（指令系统、数据类型、寻址技术、I/O机理等）类似定义接口的概念\n计算机组成：实现计算机系统结构所体现的属性（具体指令的实现）类似接口实现的概念\n举例说明：一台机器是否具有某一项功能是计算机体系结构的问题，以至于这项功能是怎么实现得就是计算机组成的问题\n计算机的基本组成\n冯.诺伊曼计算机的特点\n1、五大部件组成（控制器、运算器、存储器、输入设备、输出设备）\n2、指令和数据以相同的地位存储在存储器中，可按地址进行寻访\n3、指令由操作码和地址码组成\n4、指令和数据以二进制的形式表示\n5、以运算器为中心\n6、指令在存储器内按顺序存放\n存储器的基本组成\n主要介绍存储体、存储器地址寄存器 MAR、存储器数据寄存器 MDR\n \n运算器的基本组成\n主要介绍算数逻辑运算单元 ALU、累加器 ACC、乘商寄存器 MQ、操作数寄存器 X\n \n控制器的基本组成\n主要介绍控制单元 CU、程序计数器 PC、指令寄存器 IR\n主机完成一条指令的过程\n以取数指令为例\n指令包含两部分：一个是指令码（决定进行什么操作，比如是取数操作）；另一个是地址码（存放数据的地址）\n步骤1：取\n取数指令\n到指令寄存器 IR （绿线）\n \n步骤2：分析指令码以及执行指令操作（红线）\n \n以存数指令为例\n步骤1：取\n存数指令\n到指令寄存器 IR （如上图取取数指令步骤1）\n步骤2：分析指令码以及执行指令操作（橙线）\n \n计算机硬件的主要技术指标",
+  "content_markdown": "# 计算机组成原理 - 计算机系统概述\n\n## 计算机系统概述\n\n### 计算机系统简介\n\n#### 计算机系统\n\n计算机系统由**硬件**和**软件**两大部分组成\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkU7Nich1NJHaMx4uuq7xHFo4ich6yloHBugFThJl7EH6NXBlrzln3Em6A/640?wx_fmt=png&from=appmsg)\n\n#### 计算机软硬件机器\n\n微程序机器M0、实际机器M1 归属于硬件 ；虚拟机M2、M3、M4归属于软件\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkKIwYIpIbGUjapBcOqY13vQU9VxlG7Qdj9hWvgoquK8kQ2kuQbWaI2w/640?wx_fmt=png&from=appmsg)\n\n#### 计算机体系结构和计算机组成区别\n\n计算机体系结构：程序员所见到的计算机系统的属性概念性的结构与功能特性（指令系统、数据类型、寻址技术、I/O机理等）类似定义接口的概念\n\n计算机组成：实现计算机系统结构所体现的属性（具体指令的实现）类似接口实现的概念\n\n举例说明：一台机器是否具有某一项功能是计算机体系结构的问题，以至于这项功能是怎么实现得就是计算机组成的问题\n\n### 计算机的基本组成\n\n#### 冯.诺伊曼计算机的特点\n\n1、五大部件组成（控制器、运算器、存储器、输入设备、输出设备）\n\n2、指令和数据以相同的地位存储在存储器中，可按地址进行寻访\n\n3、指令由操作码和地址码组成\n\n4、指令和数据以二进制的形式表示\n\n5、以运算器为中心\n\n6、指令在存储器内按顺序存放\n\n#### 存储器的基本组成\n\n主要介绍存储体、存储器地址寄存器 MAR、存储器数据寄存器 MDR\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkdCic3QSzLEbibvqomvofhZRwEicFGP2QRb0NQ1YGeiaCibpUMjpAJK0Rmmg/640?wx_fmt=png&from=appmsg)\n\n#### 运算器的基本组成\n\n主要介绍算数逻辑运算单元 ALU、累加器 ACC、乘商寄存器 MQ、操作数寄存器 X\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkdyYAybev6ZRqLm8PLQeUSicicmdd0qdicfIiaia4upiaCv34yMqHUTmw8COA/640?wx_fmt=png&from=appmsg)\n\n#### 控制器的基本组成\n\n主要介绍控制单元 CU、程序计数器 PC、指令寄存器 IR\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkP2EpB4zJgylrur4WbuMicfgOKLspZbEibmz9SiaswSIhw5sA5BqiaS2FicA/640?wx_fmt=png&from=appmsg)\n\n#### 主机完成一条指令的过程\n\n### 以取数指令为例\n\n指令包含两部分：一个是指令码（决定进行什么操作，比如是取数操作）；另一个是地址码（存放数据的地址）\n\n步骤1：取**取数指令**到指令寄存器 IR （绿线）\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkdEL1wicURsGUOhqicsmMoZicOF7RLukkyich9zSONdCeSoqibRSyQGcCIvA/640?wx_fmt=png&from=appmsg)\n\n步骤2：分析指令码以及执行指令操作（红线）\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkerlV6X9qKcBEQrWiaJkcicWNolrKhLGoqWnxdUtdj2jaWqw3U6a95icVg/640?wx_fmt=png&from=appmsg)\n\n### 以存数指令为例\n\n步骤1：取**存数指令**到指令寄存器 IR （如上图取取数指令步骤1）\n\n步骤2：分析指令码以及执行指令操作（橙线）\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkXYNiazwqHzOlxFH4lkXwic9CWiaJ26dNUics1B7xffkc65h5lytBm4516A/640?wx_fmt=png&from=appmsg)\n\n### 计算机硬件的主要技术指标\n\n![](https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkRqcWOcAicRAye2PmhCC6eibZrbZ3EqJ4iaQnyybJT7H6kv8OpklNH13Yw/640?wx_fmt=png&from=appmsg)",
+  "error": null,
+  "images": [
+    "https://mmbiz.qpic.cn/sz_mmbiz_jpg/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkDibIW1GIlcpNKluV6hdtMibxucBELIDicsCkEEsH8pGv8PCzKick6t8yJQ/0?wx_fmt=jpeg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkU7Nich1NJHaMx4uuq7xHFo4ich6yloHBugFThJl7EH6NXBlrzln3Em6A/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkKIwYIpIbGUjapBcOqY13vQU9VxlG7Qdj9hWvgoquK8kQ2kuQbWaI2w/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkdCic3QSzLEbibvqomvofhZRwEicFGP2QRb0NQ1YGeiaCibpUMjpAJK0Rmmg/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkdyYAybev6ZRqLm8PLQeUSicicmdd0qdicfIiaia4upiaCv34yMqHUTmw8COA/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkP2EpB4zJgylrur4WbuMicfgOKLspZbEibmz9SiaswSIhw5sA5BqiaS2FicA/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkdEL1wicURsGUOhqicsmMoZicOF7RLukkyich9zSONdCeSoqibRSyQGcCIvA/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkerlV6X9qKcBEQrWiaJkcicWNolrKhLGoqWnxdUtdj2jaWqw3U6a95icVg/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkXYNiazwqHzOlxFH4lkXwic9CWiaJ26dNUics1B7xffkc65h5lytBm4516A/640?wx_fmt=png&from=appmsg",
+    "https://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkRqcWOcAicRAye2PmhCC6eibZrbZ3EqJ4iaQnyybJT7H6kv8OpklNH13Yw/640?wx_fmt=png&from=appmsg",
+    "",
+    "http://mmbiz.qpic.cn/sz_mmbiz_png/59z5dTvSBH0SvLJ1na0OZcA34IzAGHbkFBq2OLDkLicXKaJjwhZZYup4nM96LL8kibicVHV13jxP1j74ibljy7FXXw/0?wx_fmt=png"
+  ],
+  "output": {
+    "downloaded_images": [
+      "image_1.png",
+      "image_10.png",
+      "image_2.png",
+      "image_4.png",
+      "image_6.png",
+      "image_5.png",
+      "image_7.png",
+      "image_0.jpeg",
+      "image_3.png",
+      "image_8.png",
+      "image_9.png"
+    ],
+    "images_dir": "/workspace/408/ComputerOrganization/files/计算机组成原理 - 计算机系统概述/images",
+    "markdown_path": "/workspace/408/ComputerOrganization/files/计算机组成原理 - 计算机系统概述/article.md",
+    "success": true
+  },
+  "publish_time": "未知时间",
+  "success": true,
+  "title": "计算机组成原理 - 计算机系统概述"
+}
