@@ -1,3 +1,6 @@
 [submodule "Repo/the-art-of-git-project"]
 	path = Repo/the-art-of-git-project
 	url = https://www.gitlink.org.cn/niuchenxun/the-art-of-git-project
+[submodule "Repo/WeRead-MCP"]
+	path = Repo/WeRead-MCP
+	url = https://github.com/Stelquis/WeRead-MCP.git

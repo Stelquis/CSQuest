@@ -5,6 +5,10 @@
       "args": [
         "/workspace/.agent/mcp/knowledge-graph/main.js"
       ]
+    },
+    "weixin-reader": {
+      "command": "/workspace/Repo/WeRead-MCP/target/release/weread-mcp",
+      "args": []
     }
   }
 }

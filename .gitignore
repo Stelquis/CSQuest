@@ -3,15 +3,10 @@ Blockchain/Project/artifacts/build-info/
 Blockchain/Project/cache/
 
 # === Rust ===
-Repo/wechat-read-mcp/target
+Repo/WeRead-MCP/target
 
 # === Python ===
 __pycache__/
-*.pyc
-*.pyo
-*.egg-info/
-*.egg
-.venv/
 venv/
 
 # === Node.js ===
@@ -21,24 +16,15 @@ node_modules/
 *.class
 
 # === C/C++ ===
-*.o
-*.so
 *.exe
-
-# === OS ===
-.DS_Store
-Thumbs.db
 
 # === SkillHub ===
 skills/.skills_store_lock.json
 
 # === Output ===
-output/
+# output/
 
 # === AI Tool Skills (machine-specific) ===
-.agents/
-.claude/skills/
-.codebuddy/
 skills-lock.json
 
 # MCP 知识图谱（依赖 + 运行时生成）
