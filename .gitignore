@@ -3,7 +3,7 @@ Blockchain/Project/artifacts/build-info/
 Blockchain/Project/cache/
 
 # === Rust ===
-Repo/WeRead-MCP/target
+repos/WeRead-MCP/target
 
 # === Python ===
 __pycache__/
@@ -28,7 +28,10 @@ skills/.skills_store_lock.json
 skills-lock.json
 
 # MCP 知识图谱（依赖 + 运行时生成）
-.agent/mcp/knowledge-graph/node_modules/
-.agent/mcp/knowledge-graph/*.db
-.agent/mcp/knowledge-graph/*.db-shm
-.agent/mcp/knowledge-graph/*.db-wal
+.agent/mcps/knowledge-graph/node_modules/
+.agent/mcps/knowledge-graph/*.db
+.agent/mcps/knowledge-graph/*.db-shm
+.agent/mcps/knowledge-graph/*.db-wal
+
+# === 容器回收站（rm 包装器生成） ===
+.Trash-0/

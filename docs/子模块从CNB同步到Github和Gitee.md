@@ -1,10 +1,6 @@
-# 子仓库（Submodule）从 CNB 同步到 GitHub / Gitee 经验文档
+# 子模块从 CNB 同步到 GitHub 和 Gitee（通用指南）
 
-## 概述
-
-本项目（CSQuest）托管在 CNB（cnb.cool）上，仓库内包含多个子模块（Submodule），如 `Repo/the-art-of-git-project` 和 `Repo/WeRead-MCP`。这些子模块本身也是独立的 Git 仓库，需要同步到 GitHub 和 Gitee 等平台。
-
-本文档记录将子模块从 CNB 父仓库中独立出来，并同步到 GitHub / Gitee 的完整流程和注意事项。
+本文档记录在 CNB（cnb.cool）托管的仓库中管理 git submodule，并将其同步推送到 GitHub / Gitee 的通用流程与注意事项。文中 `<子模块路径>`、`<远程仓库URL>`、`<用户名>`、`<邮箱>` 等均为占位符，使用时替换为实际值。
 
 ---
 
@@ -30,7 +26,7 @@ cat .gitmodules
 git submodule status
 
 # 查看一个目录是否被父仓库直接跟踪（有 blob hash 就是直接跟踪）
-git ls-tree HEAD -- Repo/目录名/
+git ls-tree HEAD -- <目录名>/
 # 输出 mode 160000 表示子模块，其他表示普通文件
 ```
 
@@ -43,7 +39,7 @@ git ls-tree HEAD -- Repo/目录名/
 #### 1. 初始化子模块独立仓库
 
 ```bash
-cd Repo/你的目录
+cd <子模块路径>
 git init
 git add -A
 git commit -m "chore: initialize repository"
@@ -54,21 +50,20 @@ git branch -m master main
 
 ```bash
 # 用 gh CLI 创建（需先登录）
-gh repo create 仓库名 --public --remote origin --source=. --push-unsafe --push
+gh repo create <仓库名> --public --remote origin --source=. --push
 ```
 
 #### 3. 在父仓库中替换为子模块
 
 ```bash
 # 从父仓库中移除直接跟踪的文件
-cd /workspace
-git rm -r --cached Repo/你的目录
+git rm -r --cached <子模块路径>
 
 # 临时移走目录（因为 submodule add 需要空目录）
-mv Repo/你的目录 /tmp/备份
+mv <子模块路径> /tmp/备份
 
 # 添加子模块
-git submodule add <远程仓库URL> Repo/你的目录
+git submodule add <远程仓库URL> <子模块路径>
 
 # 验证
 git submodule status
@@ -79,9 +74,9 @@ git submodule status
 `git submodule add` 会自动更新 `.gitmodules`，格式如下：
 
 ```ini
-[submodule "Repo/你的目录"]
-    path = Repo/你的目录
-    url = https://github.com/用户名/仓库名.git
+[submodule "<子模块路径>"]
+    path = <子模块路径>
+    url = <远程仓库URL>
 ```
 
 ---
@@ -97,20 +92,20 @@ CNB 平台默认的 committer 是 `cnb <cnb@cnb.local>`，author 邮箱是 `@nor
 ### 修正本地 git config
 
 ```bash
-cd Repo/你的目录
-git config user.name "你的用户名"
-git config user.email "你的邮箱@qq.com"
+cd <子模块路径>
+git config user.name "<用户名>"
+git config user.email "<邮箱>"
 ```
 
 ### 修正已有提交的 author 和 committer
 
 ```bash
 # 修正最新提交的 author
-git commit --amend --author="用户名 <邮箱@qq.com>" --no-edit
+git commit --amend --author="<用户名> <<邮箱>>" --no-edit
 
-# 修正 author 和 committer 同时修改（需要环境变量覆盖）
-GIT_COMMITTER_NAME="用户名" GIT_COMMITTER_EMAIL="邮箱@qq.com" \
-  git commit --amend --author="用户名 <邮箱@qq.com>" --no-edit
+# author 和 committer 同时修改（需要环境变量覆盖）
+GIT_COMMITTER_NAME="<用户名>" GIT_COMMITTER_EMAIL="<邮箱>" \
+  git commit --amend --author="<用户名> <<邮箱>>" --no-edit
 ```
 
 ### 修正整个历史的 author（批量）
@@ -125,14 +120,14 @@ git filter-branch --msg-filter "grep -v '^Co-Authored-By:'" --force -- --all
 
 ## 四、同步脚本
 
-### 脚本一览
+### 脚本职责划分
 
 | 脚本 | 同步对象 | 目标平台 |
 |------|---------|---------|
-| `scripts/sync-to-github.sh` | 父仓库（CSQuest） | GitHub |
-| `scripts/sync-to-gitee.sh` | 父仓库（CSQuest） | Gitee |
-| `scripts/sync-weread-mcp-to-github.sh` | WeRead-MCP 子模块 | GitHub |
-| `scripts/sync-weread-mcp-to-gitee.sh` | WeRead-MCP 子模块 | Gitee |
+| `sync-to-github.sh` | 父仓库 | GitHub |
+| `sync-to-gitee.sh` | 父仓库 | Gitee |
+| `sync-<子模块>-to-github.sh` | 各子模块 | GitHub |
+| `sync-<子模块>-to-gitee.sh` | 各子模块 | Gitee |
 
 ### 脚本编写要点
 
@@ -140,30 +135,28 @@ git filter-branch --msg-filter "grep -v '^Co-Authored-By:'" --force -- --all
 
 ```bash
 # 作者信息（用于 GitHub/Gitee 贡献图识别）
-export GIT_AUTHOR_NAME="你的用户名"
-export GIT_AUTHOR_EMAIL="你的邮箱@qq.com"
+export GIT_AUTHOR_NAME="<用户名>"
+export GIT_AUTHOR_EMAIL="<邮箱>"
 
-# 提交者信息（也改为你自己，不要留 cnb）
-export GIT_COMMITTER_NAME="你的用户名"
-export GIT_COMMITTER_EMAIL="你的邮箱@qq.com"
+# 提交者信息（也改为自己，不要留平台默认身份）
+export GIT_COMMITTER_NAME="<用户名>"
+export GIT_COMMITTER_EMAIL="<邮箱>"
 ```
 
-### GitHub 同步脚本（`sync-weread-mcp-to-github.sh`）
+### GitHub 同步脚本核心流程
 
 ```bash
-# 核心流程
-cd Repo/WeRead-MCP
+cd <子模块路径>
 git add -A
 git commit -m "提交信息"
 git push origin main
 ```
 
-### Gitee 同步脚本（`sync-weread-mcp-to-gitee.sh`）
+### Gitee 同步脚本核心流程
 
 Gitee 使用私人令牌（Personal Access Token）进行身份验证，不能直接使用用户名密码。
 
 ```bash
-# 核心流程
 # 1. 获取令牌（交互输入或环境变量）
 # 2. 验证令牌（调用 Gitee API）
 # 3. 创建/检查仓库
@@ -175,10 +168,10 @@ Gitee 使用私人令牌（Personal Access Token）进行身份验证，不能�
 
 ```bash
 # 交互方式（输入 token）
-bash scripts/sync-weread-mcp-to-gitee.sh
+bash sync-<子模块>-to-gitee.sh
 
 # 环境变量方式（跳过交互）
-GITEE_TOKEN="你的token" bash scripts/sync-weread-mcp-to-gitee.sh
+GITEE_TOKEN="<token>" bash sync-<子模块>-to-gitee.sh
 ```
 
 ---
@@ -254,8 +247,7 @@ git reset --hard origin/main
 父仓库跟踪子模块的方式是记录一个 commit hash（gitlink）。如果子模块有新的提交，父仓库的指针不会自动更新，需要手动：
 
 ```bash
-cd /workspace
-git add Repo/WeRead-MCP
+git add <子模块路径>
 git commit -m "chore: update submodule pointer"
 ```
 
@@ -267,6 +259,14 @@ git commit -m "chore: update submodule pointer"
 git for-each-ref --format='%(refname)' refs/original/ | while read ref; do git update-ref -d "$ref"; done
 ```
 
+### 6.6 编译产物不入库
+
+子模块如果包含需要编译的项目（Rust/Node/Python 等），构建产物（`target/`、`node_modules/`、`dist/` 等）**绝不能提交进仓库**：
+
+- 确认子模块自己的 `.gitignore` 覆盖了构建目录（如 `target/`）
+- 若 `.gitignore` 缺失，在**子模块仓库内**添加并提交（`.gitignore` 跟随子模块自身，而非父仓库）
+- 新环境克隆子模块后，按项目说明重新构建（如 `cargo build --release`）
+
 ---
 
 ## 七、完整工作流程示例
@@ -275,7 +275,7 @@ git for-each-ref --format='%(refname)' refs/original/ | while read ref; do git u
 
 ```bash
 # 1. 在子模块中开发
-cd Repo/WeRead-MCP
+cd <子模块路径>
 # ... 修改代码 ...
 
 # 2. 提交到子模块
@@ -284,42 +284,37 @@ git commit -m "feat: 新功能"
 git push origin main
 
 # 3. 回到父仓库，更新子模块指针
-cd /workspace
-git add Repo/WeRead-MCP
+git add <子模块路径>
 git commit -m "chore: update submodule"
 git push origin main
 
 # 4. 同步到 Gitee
-GITEE_TOKEN="xxx" bash scripts/sync-weread-mcp-to-gitee.sh
+GITEE_TOKEN="<token>" bash sync-<子模块>-to-gitee.sh
 ```
 
 ### 从零开始新子模块
 
 ```bash
-# 1. CNB 上创建目录
-mkdir -p Repo/新项目
-
-# 2. 初始化为独立仓库
-cd Repo/新项目
+# 1. 创建目录并初始化为独立仓库
+mkdir -p <子模块路径>
+cd <子模块路径>
 git init
 git add -A
 git commit -m "chore: initialize"
 git branch -m main
 
-# 3. 创建 GitHub 远程
-gh repo create 新项目 --public --remote origin --source=. --push-unsafe --push
+# 2. 创建 GitHub 远程
+gh repo create <仓库名> --public --remote origin --source=. --push
 
-# 4. 父仓库中转为子模块
-cd /workspace
-git rm -r --cached Repo/新项目
-mv Repo/新项目 /tmp/backup
-git submodule add https://github.com/用户名/新项目.git Repo/新项目
-git add .gitmodules Repo/新项目
-git commit -m "refactor: convert 新项目 to submodule"
+# 3. 父仓库中转为子模块
+git rm -r --cached <子模块路径>
+mv <子模块路径> /tmp/backup
+git submodule add <远程仓库URL> <子模块路径>
+git add .gitmodules <子模块路径>
+git commit -m "refactor: convert <子模块名> to submodule"
 git push origin main
 
-# 5. 创建 Gitee 同步脚本
-# 参照 scripts/sync-weread-mcp-to-gitee.sh 模板
+# 4. 按需编写 Gitee 同步脚本（参照第八节模板）
 ```
 
 ---
@@ -332,13 +327,13 @@ git push origin main
 #!/bin/bash
 set -e
 
-SUBMODULE_PATH="Repo/你的目录"
+SUBMODULE_PATH="<子模块路径>"
 GITHUB_REMOTE="origin"
 
-export GIT_AUTHOR_NAME="你的用户名"
-export GIT_AUTHOR_EMAIL="你的邮箱@qq.com"
-export GIT_COMMITTER_NAME="你的用户名"
-export GIT_COMMITTER_EMAIL="你的邮箱@qq.com"
+export GIT_AUTHOR_NAME="<用户名>"
+export GIT_AUTHOR_EMAIL="<邮箱>"
+export GIT_COMMITTER_NAME="<用户名>"
+export GIT_COMMITTER_EMAIL="<邮箱>"
 
 cd "$(dirname "$0")/../${SUBMODULE_PATH}"
 
@@ -359,14 +354,14 @@ echo "✅ 同步完成"
 #!/bin/bash
 set -e
 
-SUBMODULE_PATH="Repo/你的目录"
+SUBMODULE_PATH="<子模块路径>"
 GITEE_REMOTE="gitee"
 GITEE_API="https://gitee.com/api/v5"
 
-export GIT_AUTHOR_NAME="你的用户名"
-export GIT_AUTHOR_EMAIL="你的邮箱@qq.com"
-export GIT_COMMITTER_NAME="你的用户名"
-export GIT_COMMITTER_EMAIL="你的邮箱@qq.com"
+export GIT_AUTHOR_NAME="<用户名>"
+export GIT_AUTHOR_EMAIL="<邮箱>"
+export GIT_COMMITTER_NAME="<用户名>"
+export GIT_COMMITTER_EMAIL="<邮箱>"
 
 # 获取令牌
 if [ -z "${GITEE_TOKEN:-}" ]; then
@@ -379,8 +374,8 @@ GITEE_USER=$(curl -s -H "Authorization: token $GITEE_TOKEN" "${GITEE_API}/user" 
 
 cd "$(dirname "$0")/../${SUBMODULE_PATH}"
 
-# 创建或更新仓库
-# ... 参照 sync-weread-mcp-to-gitee.sh 完整实现 ...
+# 创建或更新仓库（按需实现）
+# ...
 
 git push "$GITEE_REMOTE" main
 echo "✅ 同步完成"
@@ -416,10 +411,11 @@ gh repo create <name> --public --remote origin # 创建 GitHub 仓库
 
 ## 十、注意事项
 
-1. **不要自动推送** — 提交前先 `cargo check` 或 `cargo fmt --check` 验证，确认无误再告知用户
+1. **不要自动推送** — 提交前先在子模块内运行构建/测试验证（如 `cargo check`、`npm test`），确认无误再推送
 2. **Author 邮箱必须匹配** — GitHub/Gitee 贡献图只认 Author 邮箱，必须与平台绑定邮箱一致
-3. **Committer 也要改** — 不要留 CNB 的 `cnb <cnb@cnb.local>`，全部改为用户身份
+3. **Committer 也要改** — 不要留平台默认身份，全部改为用户身份
 4. **不要有 Co-Authored-By** — 除非用户明确要求，否则提交信息中不要有协作者标记
 5. **force push 要谨慎** — 改写历史后需要 force push，会影响其他人
 6. **Gitee token 不落盘** — 使用临时 credential helper，用完即清理
 7. **子模块指针手动更新** — 父仓库不会自动跟踪子模块的新提交，需要手动 `git add` 更新
+8. **编译产物不入库** — 构建产物由子模块自身的 `.gitignore` 排除，新环境克隆后重新构建

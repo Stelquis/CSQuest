@@ -1,10 +1,23 @@
 {
+    // GitLens 行内 blame 消息格式：显示作者名与提交短哈希
     "gitblame.inlineMessageFormat": "${author.name} (${commit.shortHash})",
+    // 终端输入时启用自动补全建议
     "terminal.integrated.suggest.enabled": true,
+    // 终端集成 shell 环境上报
     "terminal.integrated.shellIntegration.environmentReporting": true,
+    // 次级侧边栏默认隐藏
     "workbench.secondarySideBar.defaultVisibility": "hidden",
+    // 关闭内置 AI 聊天功能
     "chat.disableAIFeatures": true,
+    // C/C++ 语言标准
     "C_Cpp.default.cppStandard": "c++20",
     "C_Cpp.default.cStandard": "c17",
-    "workbench.colorTheme": "Light+"
+    // 界面主题
+    "workbench.colorTheme": "Light+",
+    // 按住 Ctrl + 鼠标滚轮：仅缩放编辑器字体，不影响菜单栏等界面
+    "editor.mouseWheelZoom": true,
+    // 整体窗口缩放级别保持默认，避免界面误缩放
+    "window.zoomLevel": 0,
+    // 编辑器基础字号，滚轮缩放在此基础上增减
+    "editor.fontSize": 14
 }

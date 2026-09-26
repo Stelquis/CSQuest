@@ -1,0 +1,61 @@
+---
+description: 提交并推送代码到远端时使用。本规则定义提交信息的统一风格、提交前的复查与批准要求，以及提交推送的执行步骤，确保提交记录简洁、可读且作者身份一致。
+alwaysApply: false
+---
+# 提交与推送
+
+## 概述
+
+提交并推送代码到远端时，遵循以下固定流程：**复查改动 → 编写提交信息 → 呈请用户批准 → 提交推送 → 自检身份**。核心目标是让提交记录简洁、主题清晰，并且提交者身份与作者保持一致。
+
+## 提交信息规范
+
+**subject 与 body 一律使用简洁英文。**
+
+格式：`<type>: <concise imperative phrase>`
+
+- **type**：英文小写，常用取值 `ci` / `docs` / `feat` / `fix` / `init`。
+- **描述**：英文，动宾结构（祈使语气）；动词习惯用 fix / remove / optimize / refactor / add。
+- **body（可选）**：复杂改动才需要，用 `- ` 开头的要点列表，同样使用简洁英文。
+
+精简原则：
+
+- 默认用**一个提交**装下本次全部相关改动；只有主题无关且改动量大时才考虑分组（如代码 vs 文档），分组前先征询用户。
+- body 保持精简，每条一行只概括一个主题。
+- body 不写具体数值前后对比、文件名清单、行号——这些细节看 diff 即可。
+
+示例：
+
+```
+ci: fix dependency package name in Dockerfile
+docs: refactor multi-tenant platform architecture design
+```
+
+## 操作规则
+
+1. **复查改动**：先 `git status -s` 查看变更，只提交本次相关文件。
+2. **精确暂存**：只 `git add <具体文件>`，禁止 `git add -A`。
+3. **先批准后提交**：提交前必须把提交信息呈给用户，获批后再执行 commit/push。
+4. **不加协作者**：提交信息中不添加 `Co-Authored-By` 尾部。
+5. **身份一致**：作者与提交者必须一致，提交者取 `git config` 中的作者身份（环境注入的平台提交者需显式覆盖）。
+
+## 执行步骤
+
+1. 运行 `git status -s` 复查改动。
+2. 按上述规范编写提交信息（subject + 可选 body）。
+3. 将提交信息呈给用户，等待批准。
+4. 获批后执行以下命令（**前两行用于把提交者对齐为作者，务必保留**）：
+
+   ```bash
+   export GIT_COMMITTER_NAME="$(git config user.name)"
+   export GIT_COMMITTER_EMAIL="$(git config user.email)"
+   git add <files>
+   git commit -m "<type>: <description>"
+   git push
+   ```
+
+5. 推送后自检作者与提交者是否一致（应输出相同的姓名与邮箱）：
+
+   ```bash
+   git log -1 --format='author: %an <%ae>%ncommitter: %cn <%ce>'
+   ```

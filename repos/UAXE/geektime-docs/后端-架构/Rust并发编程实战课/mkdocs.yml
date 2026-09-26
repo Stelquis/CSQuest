@@ -1,0 +1,128 @@
+site_name: Rust并发编程实战课
+
+theme:
+  name: material
+
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+
+  features:
+    - navigation.footer
+    - content.action.edit
+    - navigation.sections
+    - content.code.copy
+
+  icon:
+    edit: material/pencil
+    logo: material/console-line
+
+extra:
+  homepage:
+  version:
+    provider: mike
+
+copyright: Copyright © 2024-Present zkep
+repo_url: https://github.com/zkep/my-geektime
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+nav:
+   - Rust并发编程实战课.md
+  
+   - 开篇词-如何用Rust写出安全高效的并发代码？.md
+  
+   - 01-并发江湖，逐鹿天下：并发编程的基本概念与应用场景.md
+  
+   - 02-并发险途，乱象迷津：并发编程的挑战与问题.md
+  
+   - 03-欲善其事，先利其器：开发环境搭建.md
+  
+   - 04-匠心独运，生生不息：如何创建和管理线程？.md
+  
+   - 05-细察毫厘，优化性能：Rust 线程高级概念.md
+  
+   - 06-沉睡待机，应声而起：线程的挂起和唤醒.md
+  
+   - 07-划定边界，掌控全局：Scope和子线程的终止.md
+  
+   - 08-博采众长，触类旁通：有趣的线程扩展.md
+  
+   - 09-蓄势待发，并行天下（一）：常用线程池之Rayon.md
+  
+   - 10-蓄势待发，并行天下（二）：常用线程池之threadpool.md
+  
+   - 11-百花齐放，百家争鸣：更多的线程池.md
+  
+   - 12-时序交错，异步之美：async-await异步编程.md
+  
+   - 13-运筹帷幄，伺机而动：Tokio异步运行时（上）.md
+  
+   - 14-运筹帷幄，伺机而动：Tokio异步运行时（下）.md
+  
+   - 15-东邪西毒，南帝北丐：其他异步运行时.md
+  
+   - 16-用之则行，舍之则藏：异步编程的场景和陷阱.md
+  
+   - 17-躬行实践，洞悉其理：自己动手实现一个Future.md
+  
+   - 18-双管齐下，两全其美：编写同时支持同步和异步的代码.md
+  
+   - 19-海纳百川，有容乃大：并发容器（上）.md
+  
+   - 20-海纳百川，有容乃大：并发容器（下）.md
+  
+   - 21-一夫当关，万夫莫开：互斥锁.md
+  
+   - 22-并行不悖，独占其时：读写锁.md
+  
+   - 23-空前绝后，一劳永逸：Once同步原语.md
+  
+   - 24-静观其变，伺机而动：Convar条件变量.md
+  
+   - 25-齐头并进，胜利会师：Barrier屏障.md
+  
+   - 26-各取所需，节制有度：Semaphore信号量.md
+  
+   - 27-百川归海，万流归宗：mpsc和mpmc.md
+  
+   - 28-浑然一体，一气呵成：atomic原子操作（上）.md
+  
+   - 29-浑然一体，一气呵成：atomic原子操作 (中).md
+  
+   - 30-浑然一体，一气呵成：atomic原子操作 (下).md
+  
+   - 31-包罗万象，风雨同舟：并发集合（上）.md
+  
+   - 32-包罗万象，风雨同舟：并发集合（下）.md
+  
+   - 直播专场（一）-并发之美，Rust中的线程应用.md
+  
+   - 直播专场（二）-异步编程示例：演示Rust并发编程的能力.md
+  
+   - 直播专场（三）-同步：共享内存和消息传递.md
+  
+   - 直播专场（四）-并发问题和并发测试.md
+  
+   - 结束语-在Rust的世界里乘风破浪，无畏前行.md
+  
+   - 结课测试-来赴一场满分之约.md
+  
