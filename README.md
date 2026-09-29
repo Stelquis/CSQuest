@@ -47,7 +47,7 @@
 - **代码标准**：完整的 ACM 输入输出程序，可直接复制运行；Java / Python / C++ / C 四语言
 - **质量控制**：文档中的每个代码块都会**实际编译运行验证**，覆盖官方示例与边界用例（空树、全负数、溢出等）
 
-> 📌 题解索引与文档规范见 [`LeetCode/README.md`](./LeetCode/README.md)
+> 📌 题解索引与文档规范见 [`Algorithm/LeetCode/README.md`](./Algorithm/LeetCode/README.md)
 
 #### 🔗 区块链课程
 

@@ -174,3 +174,16 @@
 | 2026-09-25 | 🟨 JavaScript | [`FrontendEngineering/JavaScript.md`](./FrontendEngineering/JavaScript.md) | 语言基础 | [微信文章](https://mp.weixin.qq.com/s/wYw9iQd8_CVyRL23G5ZKvQ) |
 | 2026-09-25 | ⚡ Vite | [`FrontendEngineering/Vite.md`](./FrontendEngineering/Vite.md) | 构建工程化 | [微信文章](https://mp.weixin.qq.com/s/ZAPZPvmcC_QrR3aCOJrm9g) |
 | 2026-09-25 | 💚 Vue | [`FrontendEngineering/Vue.md`](./FrontendEngineering/Vue.md) | 框架与状态 | [微信文章](https://mp.weixin.qq.com/s/BB1WfybqKM1p0J1cACFNgg) |
+| 2026-09-27 | ☸️ Kubernetes | [`InfrastructureEngineering/Kubernetes.md`](./InfrastructureEngineering/Kubernetes.md) | 容器与编排 | [微信文章](https://mp.weixin.qq.com/s/nIQL3nujUk40PxEQwYBqow) |
+| 2026-09-27 | 🔌 WebSocket | [`InfrastructureEngineering/WebSocket.md`](./InfrastructureEngineering/WebSocket.md) | 网络 | [微信文章](https://mp.weixin.qq.com/s/CdcRTTsp4SC7JTGZ4ezvLg) |
+| 2026-09-27 | 🐍 Python 网络编程 | [`BackendEngineering/Python/Network-Programming.md`](./BackendEngineering/Python/Network-Programming.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/daCiT0_gqiMKV4nfKlOyeQ) |
+| 2026-09-27 | 🚀 gRPC | [`InfrastructureEngineering/gRPC.md`](./InfrastructureEngineering/gRPC.md) | 网络 | [微信文章](https://mp.weixin.qq.com/s/c_bI9bvps4n0x78wsiAGGg) |
+| 2026-09-27 | 🧰 Conda | [`BackendEngineering/Python/Conda.md`](./BackendEngineering/Python/Conda.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/a6cOpPyQNVBlr_9bKIf4hw) |
+| 2026-09-27 | 🔥 PyTorch | [`BackendEngineering/Python/PyTorch.md`](./BackendEngineering/Python/PyTorch.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/1b1pVpm2fF_ss-RVzlxQAg) |
+| 2026-09-27 | 🧊 TensorFlow | [`BackendEngineering/Python/TensorFlow.md`](./BackendEngineering/Python/TensorFlow.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/Ct5zMPPHQ3ieNCbhZPos5w) |
+| 2026-09-27 | 🌱 机器学习 | [`BackendEngineering/Python/Machine-Learning.md`](./BackendEngineering/Python/Machine-Learning.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/H12-jN9ZQdOHSIYBxVkjSA) |
+| 2026-09-27 | 🔢 NumPy | [`BackendEngineering/Python/NumPy.md`](./BackendEngineering/Python/NumPy.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/HHH62VhVhkG26TWOW3MyTQ) |
+| 2026-09-27 | 🐼 Pandas | [`BackendEngineering/Python/Pandas.md`](./BackendEngineering/Python/Pandas.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/lIydn-q5WcEAg8V5khvcmQ) |
+| 2026-09-27 | 📝 LaTeX | [`EngineeringPractice/LaTeX.md`](./EngineeringPractice/LaTeX.md) | 文档 | [微信文章](https://mp.weixin.qq.com/s/6w1zKBPXSVsb5Fo7iOBgVg) |
+| 2026-09-27 | ⚡ CUDA | [`BackendEngineering/Python/CUDA.md`](./BackendEngineering/Python/CUDA.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/f-9aMhW6UUhevfEqo4pk3Q) |
+| 2026-09-27 | 🧮 卷积 | [`BackendEngineering/Python/Convolution.md`](./BackendEngineering/Python/Convolution.md) | 语言与运行时 | [微信文章](https://mp.weixin.qq.com/s/ke5uLZRf7XIhezANA_vyQQ) |
